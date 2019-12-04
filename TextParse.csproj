@@ -7,4 +7,12 @@
   <ItemGroup>
     <PackageReference Include="SharedCS_ChrisSid" Version="1.0.1" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <PackageId>TextParse_ChrisSid</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>sidfishus;</Authors>
+    <PackageDescription>.NET Text Parser</PackageDescription>
+    <RepositoryUrl>https://github.com/sidfishus/TextParse</RepositoryUrl>
+  </PropertyGroup>
 </Project>
