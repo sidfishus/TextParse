@@ -1,0 +1,10 @@
+Publish package
+---------------
+
+1. Update the package version in the .csproj.
+2. Create the package:
+    dotnet pack --configuration release
+3. Add the source - this may or may not be necessary:
+    nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/sidfishus/index.json -Username sidfishus -Password <TOKEN FROM github>
+4. Publish - don't forget to change the version:
+    nuget push bin/release/TextParse_ChrisSid.1.0.1.nupkg -Source "https://nuget.pkg.github.com/sidfishus/index.json" -SkipDuplicate
