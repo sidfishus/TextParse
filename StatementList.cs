@@ -56,20 +56,18 @@ namespace Sid.Parse.TextPatternParser
 			for (stmtIndex = 0, pos = firstIndex; !failedMatch && stmtIndex < m_Statements.Count;
 			 ++stmtIndex)
 			{
+				// Key nuance design decision. It's OK to perform operations/comparisons even if we have reached the end of
+				//  the string. This is necessary for things like setting variables, comparing against the end of the
+				//  string e.t.c. No doubt there will be bugs presuming this isn't the case but I've only realised
+				//  retrospectively that this is a requirement.
 				IStatement stmt = m_Statements[stmtIndex];
 				if (stmt is IOperation)
 				{
-					// Key nuance design decision. It's OK to perform an operation even if we have reached the end of the
-					//  string
 					IOperation op = (IOperation)stmt;
 					op.Perform(str, pos, depthPlusOne, runState, out pos);
 				}
 				else
 				{
-					if(pos>=str.Length)
-					{
-						break;
-					}
 					if (stmt is IComparisonWithAdvance)
 					{
 						IComparisonWithAdvance comp = (IComparisonWithAdvance)stmt;
