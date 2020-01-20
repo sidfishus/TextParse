@@ -292,10 +292,11 @@ namespace Sid.Parse.TextPatternParser
 				return ReplaceFunc(runState, input, afterMatch);
 			}
 
-			return ReplaceMatchromString(replaceWith,captured);
+			return ReplaceMatchFromString(replaceWith,captured);
 		}
 
-		private string ReplaceMatchromString(
+		// Replace the string with the captured values / formatted
+		public string ReplaceMatchFromString(
 		 string replaceWith,
 		 Dictionary<string, Capture> captured)
 		{
