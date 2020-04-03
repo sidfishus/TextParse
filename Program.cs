@@ -12,8 +12,7 @@ namespace Sid.Parse
 	{
 		static void Main(string[] args)
 		{
-			//TextPatternParser.Parser.UnitTest();
-
+			TextPatternParser.Parser.UnitTest();
 		}
 	}
 }

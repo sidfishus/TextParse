@@ -26,31 +26,22 @@ namespace Sid.Parse.TextPatternParser
 
 		internal static void UnitTest()
 		{
-			//const string input2 = "<% if(something)then class.Function Test.test (a , test.func( b) ) & Test.Test & test & \"t & \t\", 1 end if %>";
-			const string input = "<% function _ blah msgbox blah end function%>";
-
-			/*
-			const string input3 = @"<% End If If (Server.HTMLEncode(Request(""Action"")) = ""Insert"") OR (Session(""strUId"") = strUId AND strBlStatusID = """" AND strBlLevID = ""2"") OR _
-					(((strBlStatusID = """" AND strBlLevID = ""2"") OR strBlStatusID = ""2"") AND (strChkProd = ""Y"" OR Session(""strLevelLabour"") = ""250"")) Then %>";
-					*/
-
-			//const string input = "<% fp_sQry = \"SELECT ComOrgName FROM tCompany WHERE (ComID = \" & strComID & \")\" %>";
-			ILog log = new ConsoleWriteLog();
-			//ILog log = null;
-
-			//string input2="<% if(something)then Response.Write test.func(a,b, test.func(a,c)) & something, 1 end if %>";
-			//const string input2 = "<% if(something)then class.Function Test.test (a , test.func( b) ) & Test.Test & test & \"t & \t\", 1 end if %>";
-
-			//string replaced = dotNETConversion.AddParenthesisToFunctionCalls(log, input2);
-			string replaced = dotNETConversion.WrapFunctionsInScriptBlock(log, input);
-
-			// Make some space
-			for (int i = 0; i < 5; ++i)
+			var parser = new Parser(null);
+			var stmtList = new StatementList(null);
+			var options = new Options(null);
+			options.CaseSensitive = false;
+			stmtList.Add(new StringOffsetComparison(
+				null,
+				options,
+				(int pos, string str, RunState runState) => 2,
+				(int pos, string str, RunState runState) => 2,
+				true));
+			int numMatches;
+			parser.Extract("abbA", "", stmtList, null, null, out numMatches, null);
+			if (numMatches == 1)
 			{
-				Console.WriteLine("{0}", Environment.NewLine);
+				Console.WriteLine("matches");
 			}
-			Console.WriteLine("original:\t{0}{1}", input, Environment.NewLine);
-			Console.WriteLine("replaced:\t{0}", replaced);
 		}
 
 		// The difference between replace and extract mode is that extract mode only returns matching text
