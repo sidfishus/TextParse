@@ -9,15 +9,15 @@ namespace Sid.Parse.TextPatternParser
 {
 	class StringOffsetComparison : ComparisonWithAdvanceBase, IComparisonWithAdvance
 	{
-		Operand<int> m_Length;
-		Operand<int> m_Offset;
+		fOperand<int> m_Length;
+		fOperand<int> m_Offset;
 		bool m_Reverse;
 
 		public StringOffsetComparison(
 			ILog log,
 			Options options,
-			Operand<int> length,
-			Operand<int> offset,
+			fOperand<int> length,
+			fOperand<int> offset,
 			bool reverse, /* Do a reverse string match */
 			string name = null,
 			UserOnMatch fUserOnMatch = null) : base(log, options, fUserOnMatch)

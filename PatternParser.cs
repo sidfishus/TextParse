@@ -33,8 +33,8 @@ namespace Sid.Parse.TextPatternParser
 			stmtList.Add(new StringOffsetComparison(
 				null,
 				options,
-				(int pos, string str, RunState runState) => 2,
-				(int pos, string str, RunState runState) => 2,
+				Operand.StaticValue(2),
+				Operand.StaticValue(2),
 				true));
 			int numMatches;
 			parser.Extract("abbA", "", stmtList, null, null, out numMatches, null);

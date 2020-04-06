@@ -6,5 +6,18 @@ using System.Threading.Tasks;
 
 namespace Sid.Parse.TextPatternParser
 {
-	delegate T Operand<T>(int pos, string str, RunState runState);
+	delegate T fOperand<T>(int pos, string str, RunState runState);
+
+	class Operand
+	{
+		public static fOperand<T> StaticValue<T>(T value)
+		{
+			return (int pos, string str, RunState runState) => value;
+		}
+
+		public static fOperand<T> Variable<T>(string varName)
+		{
+			return (int pos, string str, RunState runState) => (T)runState.GetVariable(varName);
+		}
+	}
 }
