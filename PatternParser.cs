@@ -33,14 +33,22 @@ namespace Sid.Parse.TextPatternParser
 			stmtList.Add(new StringOffsetComparison(
 				null,
 				options,
-				Operand.StaticValue(2),
+				Operand.CallFunction<int>("ReturnTwo"),
 				Operand.StaticValue(2),
 				true));
 			int numMatches;
-			parser.Extract("abbA", "", stmtList, null, null, out numMatches, null);
+
+			Action<RunState> InitRunState = (RunState runState) => {
+				runState.SetFunction<int>("ReturnTwo", (int pos, string str, RunState rs) => 2);
+			};
+
+			parser.Extract("abbA", "", stmtList, null, null, out numMatches, null, InitRunState);
 			if (numMatches == 1)
 			{
-				Console.WriteLine("matches");
+				Console.WriteLine("matches (success)");
+			}
+			else {
+				Console.WriteLine("doesnt match (fail)");
 			}
 		}
 
@@ -52,9 +60,10 @@ namespace Sid.Parse.TextPatternParser
 		 Dictionary<string, Capture> capturing,
 		 List<State> stateList,
 		 out int numMatches,
-		 Func<RunState, string, int, string> ReplaceFunc = null)
+		 Func<RunState, string, int, string> ReplaceFunc = null,
+		 Action<RunState> InitRunState=null)
 		{
-			return Process(input, replaceWith, mainComparison, capturing, stateList, false, out numMatches, ReplaceFunc);
+			return Process(input, replaceWith, mainComparison, capturing, stateList, false, out numMatches, ReplaceFunc, InitRunState);
 		}
 
 		public string Replace(
@@ -64,9 +73,10 @@ namespace Sid.Parse.TextPatternParser
 		 Dictionary<string, Capture> capturing,
 		 List<State> stateList,
 		 out int numMatches,
-		 Func<RunState, string, int, string> ReplaceFunc = null)
+		 Func<RunState, string, int, string> ReplaceFunc = null,
+		 Action<RunState> InitRunState=null)
 		{
-			return Process(input, replaceWith, mainComparison, capturing, stateList, true, out numMatches, ReplaceFunc);
+			return Process(input, replaceWith, mainComparison, capturing, stateList, true, out numMatches, ReplaceFunc, InitRunState);
 		}
 
 		public string Replace(
@@ -75,10 +85,11 @@ namespace Sid.Parse.TextPatternParser
 		 IComparisonWithAdvance mainComparison,
 		 Dictionary<string, Capture> capturing,
 		 List<State> stateList,
-		 Func<RunState, string, int, string> ReplaceFunc = null)
+		 Func<RunState, string, int, string> ReplaceFunc = null,
+		 Action<RunState> InitRunState=null)
 		{
 			int numMatches;
-			return Process(input, replaceWith, mainComparison, capturing, stateList, true, out numMatches, ReplaceFunc);
+			return Process(input, replaceWith, mainComparison, capturing, stateList, true, out numMatches, ReplaceFunc, InitRunState);
 		}
 
 		private string Process(
@@ -89,7 +100,8 @@ namespace Sid.Parse.TextPatternParser
 		 List<State> stateList,
 		 bool replace,
 		 out int numMatches,
-		 Func<RunState,string,int,string> ReplaceFunc=null)
+		 Func<RunState,string,int,string> ReplaceFunc=null,
+		 Action<RunState> InitRunState=null)
 		{
 			if ((replaceWith==null && ReplaceFunc == null) || (ReplaceFunc!=null && replaceWith != null))
 			{
@@ -101,6 +113,7 @@ namespace Sid.Parse.TextPatternParser
 			StringBuilder replaced = new StringBuilder();
 
 			var runState = new RunState();
+			if(InitRunState!=null) InitRunState(runState);
 			numMatches = 0;
 
 			// Iterate the input string character by character
