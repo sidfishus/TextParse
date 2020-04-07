@@ -8,7 +8,7 @@ namespace Sid.Parse.TextPatternParser
 {
 	public delegate T fOperand<T>(int pos, string str, RunState runState);
 
-	class Operand
+	public class Operand
 	{
 		public static fOperand<T> StaticValue<T>(T value)
 		{

@@ -7,7 +7,7 @@ using Sid.Log;
 
 namespace Sid.Parse.TextPatternParser
 {
-	class StringOffsetComparison : ComparisonWithAdvanceBase, IComparisonWithAdvance
+	public class StringOffsetComparison : ComparisonWithAdvanceBase, IComparisonWithAdvance
 	{
 		fOperand<int> m_Length;
 		fOperand<int> m_Offset;
