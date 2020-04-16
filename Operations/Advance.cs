@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sid.Log;
+﻿using Sid.Log;
 
 namespace Sid.Parse.TextPatternParser
 {
 	public class Advance : OperationBase, IOperation
 	{
-		Func<string,int,int,RunState,int> m_fOffset;
+		fOperand<int> m_Pos;
 
 		public Advance(
 		 ILog log,
-		 Func<string, int, int, RunState, int> fOffset) : base(log)
+		 fOperand<int> pos) : base(log)
 		{
-			m_fOffset = fOffset;
+			m_Pos = pos;
 		}
 
 		protected override void PerformImp(
@@ -23,7 +20,7 @@ namespace Sid.Parse.TextPatternParser
 		 RunState runState,
 		 out int index)
 		{
-			index = m_fOffset(input,pos,depth,runState);
+			index = m_Pos(pos,input,runState);
 		}
 
 		public override string ToString()
