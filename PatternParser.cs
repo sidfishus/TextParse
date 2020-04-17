@@ -230,14 +230,16 @@ namespace Sid.Parse.TextPatternParser
 				 Environment.NewLine,
 				 input.Substring(beginPos, endPos - beginPos)));
 				Log.LogLine(delimiter);
-				Log.LogLine("Capture:");
-				foreach(var capture in capturing)
-				{
-					Log.LogLine(string.Format("{0} =\t{1}",
-					 capture.Key.ToString(),
-					 capture.Value.Captured));
+				if(capturing!=null) {
+					Log.LogLine("Capture:");
+					foreach(var capture in capturing)
+					{
+						Log.LogLine(string.Format("{0} =\t{1}",
+						capture.Key.ToString(),
+						capture.Value.Captured));
+					}
+					Log.LogLine(delimiter);
 				}
-				Log.LogLine(delimiter);
 			}
 		}
 

@@ -39,7 +39,7 @@ namespace Sid.Parse.TextPatternParser
 			// Basically just loop until the comparison returns true
 			bool end = false;
 			int depthPlusOne = depth + 1;
-			for (index = pos; index < input.Length && !end;)
+			for (index = pos; ;)
 			{
 				// Continue??
 				if (m_ContinueComp != null)
@@ -57,11 +57,16 @@ namespace Sid.Parse.TextPatternParser
 				{
 					return true;
 				}
+
+				// If the comparison fails and we are at the end of the string (last char + 1) then cease to continue
+				if(previousPos == input.Length)
+				{
+					return false;
+				}
 				
 				// Advance by 1 and try again
 				index = previousPos + ((m_Forwards)?1: -1);
 			}
-			return false;
 		}
 
 		public override string ToString()

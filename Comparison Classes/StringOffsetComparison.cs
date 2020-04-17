@@ -39,7 +39,7 @@ namespace Sid.Parse.TextPatternParser
 			var length = m_Length(firstIndex, str, runState);
 			if (length <= 0)
 			{
-				Parser.ThrowParseError($"The length used in the StringOffsetComparison with name {Name} is less than 0 ({length}).");
+				Parser.ThrowParseError($"The length used in the StringOffsetComparison with name {Name} is less or equal to 0 ({length}).");
 			}
 
 			// The length exceeds what's left of the parse input string.
