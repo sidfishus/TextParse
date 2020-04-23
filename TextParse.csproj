@@ -10,7 +10,7 @@
 
   <PropertyGroup>
     <PackageId>TextParse_ChrisSid</PackageId>
-    <Version>1.0.11</Version>
+    <Version>1.0.12</Version>
     <Authors>sidfishus;</Authors>
     <PackageDescription>.NET Text Parser</PackageDescription>
     <RepositoryUrl>https://github.com/sidfishus/TextParse</RepositoryUrl>
