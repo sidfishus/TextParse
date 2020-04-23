@@ -34,7 +34,8 @@ namespace Sid.Parse.TextPatternParser
 		// To "response.write(blah)"
 		public static string AddParenthesisToFunctionCalls(
 		 ILog log,
-		 string input)
+		 string input,
+		 out int numMatches)
 		{
 			// The parser object that will do the work
 			Parser parser = new Parser(log);
@@ -153,7 +154,7 @@ namespace Sid.Parse.TextPatternParser
 			argListCaptureStatements.Add(argumentList);
 
 			const string replaceWith = "'funcName'('funcArgs')";
-			string replaced = parser.Replace(input, replaceWith, mainStatements, capturing, stateList);
+			string replaced = parser.Replace(input, replaceWith, mainStatements, capturing, stateList, out numMatches);
 			return replaced;
 		}
 
