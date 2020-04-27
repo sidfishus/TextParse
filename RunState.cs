@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Sid.Log;
 
 namespace Sid.Parse.TextPatternParser
 {
@@ -11,6 +9,8 @@ namespace Sid.Parse.TextPatternParser
 	{
 		private Dictionary<string, object> Variables = new Dictionary<string, object>();
 		private Dictionary<string, fOperand<object>> Functions=new Dictionary<string,fOperand<object>>();
+		// A list of assertions per statement
+		private Dictionary<string,IList<IAssertion>> Assertions=new Dictionary<string,IList<IAssertion>>();
 
 		public int BeginPos
 		{
@@ -66,6 +66,71 @@ namespace Sid.Parse.TextPatternParser
 			}
 
 			return (T)func(pos, str, this);
+		}
+
+		public void AddAssertion(
+			string statementName,
+			IAssertion assertion
+		) {
+			IList<IAssertion> assertionList;
+			if(!Assertions.TryGetValue(statementName, out assertionList)) {
+				assertionList=new List<IAssertion>();
+				Assertions.Add(statementName,assertionList);
+			}
+
+			assertionList.Add(assertion);
+		}
+
+		public void ExecutePostPerformAssertions(
+			string statementName,
+			string input,
+			int beginPos,
+			int? afterPos,
+			bool? matched,
+			ILog log
+		) {
+
+			const string emphasiseLine="******************************";
+
+			IList<IAssertion> assertionList;
+			if(Assertions.TryGetValue(statementName, out assertionList)) {
+				for(int i=0;i<assertionList.Count;++i) {
+					var assertion=assertionList[i];
+
+					string errorMsg;
+					bool? assertRv=assertion.Assert(
+						input,
+						beginPos,
+						afterPos,
+						this,
+						matched,
+						out errorMsg
+					);
+
+					if(assertRv== null) {
+						if((log.GetLevel() & (int)eLogLevel.AssertionNotRelevant)>0) {
+							log.LogLine(emphasiseLine);
+							log.LogLine($"Assertion with name '{assertion.Name}' not relevant: beginPos={beginPos} "+
+								$"({Parser.DisplayPartOfInputString(input,beginPos)}), afterPos={afterPos} "+
+								$"({Parser.DisplayPartOfInputString(input,afterPos)})");
+							log.LogLine(emphasiseLine);
+						}
+					}
+
+					else if(assertRv.Value) {
+						log.LogLine(emphasiseLine);
+						log.LogLine($"Assertion with name '{assertion.Name}' succeeded: beginPos={beginPos}, afterPos={afterPos}");
+						log.LogLine(emphasiseLine);
+					}
+
+					else {
+						log.LogLine(emphasiseLine);
+						log.LogLine($"Assertion with name '{assertion.Name}' failed: {errorMsg}");
+						log.LogLine(emphasiseLine);
+						System.Diagnostics.Debug.Assert(false);
+					}
+				}
+			}
 		}
 	}
 }

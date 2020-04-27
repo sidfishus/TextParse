@@ -365,6 +365,20 @@ namespace Sid.Parse.TextPatternParser
 		{
 			throw new ParseException(error);
 		}
+
+		internal static string DisplayPartOfInputString(
+			string input,
+			int? pos
+		) {
+			if(pos==null || pos.Value<=0)
+				return string.Empty;
+				
+			const int numChars=30;
+			if((pos.Value+numChars-1)<input.Length)
+				return $"{input.Substring(pos.Value,numChars-2)}..";
+
+			return input.Substring(pos.Value,Math.Min(numChars,input.Length-pos.Value));
+		}
 	}
 
 	public class ParseException : Exception

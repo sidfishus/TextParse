@@ -11,6 +11,7 @@ namespace Sid.Parse.TextPatternParser
 	{
 		MatchResult = 1,							// When a statement is executed
 		SuccessfulMatch = 2,						// When a comparison matches
-		Always= MatchResult | SuccessfulMatch,
+		AssertionNotRelevant=4,						// Log if an assertion is not relevant
+
 	}
 }

@@ -27,7 +27,7 @@ namespace Sid.Parse.TextPatternParser
 		{
 			base.PriorToPerform(input, pos, depth);
 			PerformImp(input, pos, depth, runState, out index);
-			base.AfterPerform(null, input, pos, depth, index);
+			base.AfterPerform(null, input, pos, depth, runState, index);
 		}
 
 		// Convert an operation into a comparison

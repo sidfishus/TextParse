@@ -37,6 +37,10 @@ namespace Sid.Parse.TextPatternParser
 		 string input,
 		 out int numMatches)
 		{
+#if DEBUG
+			//sidtodo remove
+			input="<% Response.Write 1, obj.Func(1) %>";
+#endif
 			// The parser object that will do the work
 			Parser parser = new Parser(log);
 
@@ -118,6 +122,7 @@ namespace Sid.Parse.TextPatternParser
 			// Numbers
 			var numberComparison =
 			 TokenComparison.CreateNumber(parserOptions, vbScriptConcatCommaOrWhitespace, "Args number", log: log);
+			numberComparison.Name="ArgsNumber";
 			// VB script quoted strings
 			var quotedText = TokenComparison.CreateVBScriptQuotedString(parserOptions, name: "Args quoted text", log: log);
 			// VB script function which could include arguments
@@ -141,8 +146,9 @@ namespace Sid.Parse.TextPatternParser
 			vbScriptConcactOrComma.Add(isPlus);
 			vbScriptConcactOrComma.Add(isComma);
 
-			DelimitedListComparison individualArgumentList = new
-			 DelimitedListComparison(log, parserOptions, individualArgumentTypes, seperator: vbScriptConcactOrComma);
+			DelimitedListComparison individualArgumentList = new DelimitedListComparison(
+				log, parserOptions, individualArgumentTypes, seperator: vbScriptConcactOrComma
+			);
 			individualArgumentList.MinAmount = 1;
 			individualArgumentList.ItemTrim = skipWhitespace;
 
@@ -153,8 +159,66 @@ namespace Sid.Parse.TextPatternParser
 			argumentList.ItemTrim = skipWhitespace;
 			argListCaptureStatements.Add(argumentList);
 
+			Action<RunState> InitRunState=(RunState runState) => {
+				const string argsList="1, obj.Func(1) ";
+				{
+					const string responseWrite=" Response.Write";
+					IAssertion funcNameAssertion=new PositionAssertion(
+						true,
+						input.IndexOf(responseWrite),
+						input.IndexOf(responseWrite)+responseWrite.Length
+					);
+					funcNameAssertion.Name="FunctionName";
+					runState.AddAssertion(
+						"FunctionName",
+						funcNameAssertion
+					);
+				}
+
+				{
+					IAssertion argListAssertion=new PositionAssertion(
+						true,
+						input.IndexOf(argsList),
+						input.IndexOf(argsList)+argsList.Length
+					);
+					argListAssertion.Name="ArgumentList";
+					runState.AddAssertion(
+						"ArgumentList",
+						argListAssertion
+					);
+				}
+
+				{
+					IAssertion argsNumberAssertion=new PositionAssertion(
+						true,
+						input.IndexOf(argsList),
+						input.IndexOf(argsList)+1
+					);
+					argsNumberAssertion.Name="ArgsNumber";
+					runState.AddAssertion(
+						"ArgsNumber",
+						argsNumberAssertion
+					);
+				}
+
+				{
+					const string argsFunc="obj.Func(1)";
+					IAssertion argsFuncWithParamAssert=new PositionAssertion(
+						true,
+						input.IndexOf(argsFunc),
+						input.IndexOf(argsFunc)+argsFunc.Length
+					);
+
+					argsFuncWithParamAssert.Name="Args Function";
+					runState.AddAssertion(
+						"Args Function",
+						argsFuncWithParamAssert
+					);
+				}
+			};
+
 			const string replaceWith = "'funcName'('funcArgs')";
-			string replaced = parser.Replace(input, replaceWith, mainStatements, capturing, stateList, out numMatches);
+			string replaced = parser.Replace(input, replaceWith, mainStatements, capturing, stateList, out numMatches, null, InitRunState);
 			return replaced;
 		}
 

@@ -35,7 +35,7 @@ namespace Sid.Parse.TextPatternParser
 			 depth,
 			 runState,
 			 out index);
-			base.AfterPerform(matched, input, pos, depth, index);
+			base.AfterPerform(matched, input, pos, depth, runState, index);
 			return matched;
 		}
 

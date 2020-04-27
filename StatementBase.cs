@@ -58,6 +58,7 @@ namespace Sid.Parse.TextPatternParser
 		 string input,
 		 int pos,
 		 int depth,
+		 RunState runState,
 		 int? index)
 		{
 #if DEBUG
@@ -166,6 +167,9 @@ namespace Sid.Parse.TextPatternParser
 					Log.LogLine(textBuilder.ToString());
 				}
 			}
+
+			if(this.Name!=null)
+				runState.ExecutePostPerformAssertions(this.Name,input,pos,index,rv,Log);
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace Sid.Parse.TextPatternParser
 		{
 			base.PriorToPerform(input, pos, depth);
 			bool matched=CompareImp(input,pos, depth, runState);
-			base.AfterPerform(matched, input, pos, depth, null);
+			base.AfterPerform(matched, input, pos, depth, runState, null);
 			return matched;
 		}
 
