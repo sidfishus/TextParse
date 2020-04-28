@@ -222,17 +222,55 @@ namespace Sid.Parse.TextPatternParser
 			return statementList;
 		}
 
+		internal static Options CreateVBScriptParserOptions(ILog log)
+		{
+			var options=new Options(log);
+			options.CaseSensitive=false;
+			options.LineWrap = TokenComparison.VBScriptLineWrap(
+			 log,
+			 options);
+
+			 return options;
+		}
+
+		// Concatenated single arguments
+		// Delimited by whitespace, comma & or +
+		internal static IComparisonWithAdvance CreateVBScriptConcatCommaOrWhitespace(
+			ILog log,
+			Options options=null
+
+		) {
+			if(options==null) options=CreateVBScriptParserOptions(log);
+
+			OrComparison vbScriptConcatCommaOrWhitespace = new OrComparison(log);
+			vbScriptConcatCommaOrWhitespace.Name = "Args concat or delimiter";
+			vbScriptConcatCommaOrWhitespace.Add(IsWhitespace(log));
+			CharComparison isAmpersand = new CharComparison(log, options, '&');
+			CharComparison isPlus = new CharComparison(log, options, '+');
+			CharComparison isComma = new CharComparison(log, options, ',');
+			vbScriptConcatCommaOrWhitespace.Add(isAmpersand);
+			vbScriptConcatCommaOrWhitespace.Add(isPlus);
+			vbScriptConcatCommaOrWhitespace.Add(isComma);
+
+			return vbScriptConcatCommaOrWhitespace;
+		}
+
 		// E.g.
 		// class.Function _ \r\n (p1, p2, class.Function2( _\r\n p1,p2 ) )
 		// or
 		// class.FunctionWithNoArgs
 		public static IComparisonWithAdvance CreateVBScriptFunction(
 		 Options options,
-		 IComparisonWithAdvance end,
+		 IComparisonWithAdvance vbScriptConcatCommaOrWhitespace,
 		 IComparison vbScriptKeywords,
 		 string name = null,
 		 ILog log=null)
 		{
+			if(options == null) options=CreateVBScriptParserOptions(log);
+			if(vbScriptConcatCommaOrWhitespace == null)
+				vbScriptConcatCommaOrWhitespace = CreateVBScriptConcatCommaOrWhitespace(log);
+			if(vbScriptKeywords == null) vbScriptKeywords = TokenComparison.VBScriptKeywords(log, options);
+
 			if (options.SkipLineWrapOperation==null)
 			{
 				Parser.ThrowParseError("The line wrap comparison has not been specified. This is mandatory.");
@@ -244,14 +282,16 @@ namespace Sid.Parse.TextPatternParser
 
 			// Function
 			CharComparison isDot = new CharComparison(log, options, '.');
-			OrComparison isDotOrEnd=new OrComparison(log);
-			isDotOrEnd.Add(isDot);
-			isDotOrEnd.Add(end);
+			OrComparison isDotOrParenOrEnd=new OrComparison(log);
+			isDotOrParenOrEnd.Add(isDot);
+			isDotOrParenOrEnd.Add(vbScriptConcatCommaOrWhitespace);
+			CharComparison openParen = new CharComparison(log, options, '(');
+			isDotOrParenOrEnd.Add(openParen);
 			var identifier = TokenComparison.CreateIdentifier(
 			 options,
-			 end:isDotOrEnd,
+			 end:isDotOrParenOrEnd,
 			 exclusion: vbScriptKeywords,
-			 name: null,
+			 name: "identifier",
 			 log: log);
 
 			// List of identifiers seperated by . which will include classes/namespaces
@@ -259,24 +299,28 @@ namespace Sid.Parse.TextPatternParser
 			 options,
 			 token: identifier,
 			 segment: isDot,
-			 name: null,
-			 log: null);
+			 name: "sub",
+			 log: log);
 			statementList.Add(sub);
 
 			// Skip whitespace
-			statementList.Add(SkipWhitespace(log));
+			{
+				var skip=SkipWhitespace(log);
+				skip.Name="SkipWhitespace1";
+				statementList.Add(skip);
+			}
 
 			// Skip the line wrap character
 			statementList.Add(options.SkipLineWrapOperation);
 
 			// Function parenthesis and arguments
-			CharComparison open = new CharComparison(log, options, '(');
 			CharComparison close = new CharComparison(log, options, ')');
 
 			// Either the end (and don't advance past it), or function argument list
 			OrComparison isEndOrArgumentList = new OrComparison(log);
-			isEndOrArgumentList.Add(new CompareNoAdvance(log,end));
-			isEndOrArgumentList.Add(new NestedOpenCloseComparison(log, open, close));
+			isEndOrArgumentList.Name="IsEndOrArgumentList";
+			isEndOrArgumentList.Add(new CompareNoAdvance(log,vbScriptConcatCommaOrWhitespace));
+			isEndOrArgumentList.Add(new NestedOpenCloseComparison(log, openParen, close));
 
 			statementList.Add(isEndOrArgumentList);
 

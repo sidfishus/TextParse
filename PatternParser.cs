@@ -103,11 +103,6 @@ namespace Sid.Parse.TextPatternParser
 		 Func<RunState,string,int,string> ReplaceFunc=null,
 		 Action<RunState> InitRunState=null)
 		{
-			if ((replaceWith==null && ReplaceFunc == null) || (ReplaceFunc!=null && replaceWith != null))
-			{
-				throw new Exception(
-					"Invalid parameters: must specify exactly one of the replace function or the replace string.");
-			}
 
 			// The replaced string
 			StringBuilder replaced = new StringBuilder();
