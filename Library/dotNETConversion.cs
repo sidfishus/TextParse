@@ -101,20 +101,20 @@ namespace Sid.Parse.TextPatternParser
 
 			// Concatenated single arguments
 			// Delimited by whitespace, comma & or +
-			var vbScriptConcatCommaOrWhitespace = TokenComparison.CreateVBScriptConcatCommaOrWhitespace(log,parserOptions);
-			vbScriptConcatCommaOrWhitespace.Name = "Args concat or delimiter";
+			var vbScriptConcatCommaOrWhitespaceOrEnd =
+				TokenComparison.CreateVBScriptConcatCommaOrWhitespaceOrEnd(log,parserOptions);
 
 			// Numbers
 			var numberComparison =
-			 TokenComparison.CreateNumber(parserOptions, vbScriptConcatCommaOrWhitespace, "ArgsNumber", log: log);
+			 TokenComparison.CreateNumber(parserOptions, vbScriptConcatCommaOrWhitespaceOrEnd, "ArgsNumber", log: log);
 			// VB script quoted strings
 			var quotedText = TokenComparison.CreateVBScriptQuotedString(parserOptions, name: "Args quoted text", log: log);
-			// VB script function which could include arguments
-			var vbScriptFunc = TokenComparison.CreateVBScriptFunction(
+			// VB script function which could include arguments, or a variable name
+			var VbScriptFunctionOrVar = TokenComparison.CreateVBScriptFunctionOrVar(
 			 parserOptions,
-			 vbScriptConcatCommaOrWhitespace,
+			 vbScriptConcatCommaOrWhitespaceOrEnd,
 			 vbScriptKeywords,
-			 "Args Function",
+			 "VbScriptFunctionOrVar",
 			 log: log);
 
 			// Individual arguments
@@ -122,15 +122,19 @@ namespace Sid.Parse.TextPatternParser
 			OrComparison individualArgumentTypes = new OrComparison(log);
 			individualArgumentTypes.Add(numberComparison);
 			individualArgumentTypes.Add(quotedText);
-			individualArgumentTypes.Add(vbScriptFunc);
+			individualArgumentTypes.Add(VbScriptFunctionOrVar);
 
 			// List delimiter for the individual arguments
 			OrComparison vbScriptConcactOrComma = new OrComparison(log);
-			vbScriptConcactOrComma.Add(new CharComparison(log, parserOptions, '&'));
+			{
+				var matchAmpersand=new CharComparison(log, parserOptions, '&');
+				matchAmpersand.Name="ArgsStringConcatenation";
+				vbScriptConcactOrComma.Add(matchAmpersand);
+			}
 			vbScriptConcactOrComma.Add(new CharComparison(log, parserOptions, '+'));
 			var isComma=new CharComparison(log, parserOptions, ',');
 			vbScriptConcactOrComma.Add(isComma);
-
+			
 			DelimitedListComparison individualArgumentList = new DelimitedListComparison(
 				log, parserOptions, individualArgumentTypes, seperator: vbScriptConcactOrComma
 			);

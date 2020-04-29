@@ -17,7 +17,7 @@ namespace Sid.Parse.TextPatternParser {
 
             var statementList=new StatementList(log);
 
-            var mainComp=TokenComparison.CreateVBScriptFunction(null,null,null,null,log);
+            var mainComp=TokenComparison.CreateVBScriptFunctionOrVar(null,null,null,null,log);
             statementList.Add(new StorePosAsVariable(log,"BeginPos"));
             statementList.Add(mainComp);
 
@@ -57,7 +57,7 @@ namespace Sid.Parse.TextPatternParser {
 
             var statementList=new StatementList(log);
 
-            var mainComp=TokenComparison.CreateVBScriptFunction(null,null,null,null,log);
+            var mainComp=TokenComparison.CreateVBScriptFunctionOrVar(null,null,null,null,log);
             statementList.Add(new StorePosAsVariable(log,"BeginPos"));
             statementList.Add(mainComp);
 
@@ -97,14 +97,15 @@ namespace Sid.Parse.TextPatternParser {
 
             AddParenthesisToFunctionCalls_T1(log);
             AddParenthesisToFunctionCalls_T2(log);
+            AddParenthesisToFunctionCalls_T3(log);
         }
 
         public static void AddParenthesisToFunctionCalls_T1(ILog log) {
-            const string input="<% Response.Write 1, Func(1) %>";
+            const string input="<% Response.Write 1, obj.Func(1) %>";
 
             Action<Action<string, IAssertion>> fCreateAssertList = (fAddAssert) => {
             
-                const string argsList="1, Func(1)";
+                const string argsList="1, obj.Func(1)";
                 {
                     const string responseWrite=" Response.Write";
                     IAssertion funcNameAssertion=new PositionAssertion(
@@ -166,7 +167,94 @@ namespace Sid.Parse.TextPatternParser {
         }
 
         public static void AddParenthesisToFunctionCalls_T2(ILog log) {
-            //input="<% Response.Write 1, obj.Func(1) %>";
+            const string input=
+                @"<% Response.Write 1, obj.Func(1), obj.Func2(2), Func(""three""), NestedFunc(InnerFunc(""one"",2),3), _
+                FuncOnAnotherLine(1) %>";
+
+            const string expectedResult=
+                @"<% Response.Write(1, obj.Func(1), obj.Func2(2), Func(""three""), NestedFunc(InnerFunc(""one"",2),3), _
+                FuncOnAnotherLine(1)) %>";
+
+            int numMatches;
+            string replaced=dotNETConversion.AddParenthesisToFunctionCalls(log,input,out numMatches,null); 
+            System.Diagnostics.Debug.Assert(numMatches==1);
+            System.Diagnostics.Debug.Assert(replaced==expectedResult);
+        }
+
+        public static void AddParenthesisToFunctionCalls_T3(ILog log) {
+            string input=string.Format(@"<% Response.Write ""hello "" & world, 2, _ {0} 3 %>",Environment.NewLine);
+            string expectedResult=string.Format(@"<% Response.Write(""hello "" & world, 2, _ {0} 3) %>",Environment.NewLine);
+
+            Action<Action<string, IAssertion>> fCreateAssertList = (fAddAssert) => {
+                const string responseWrite=" Response.Write";
+                var responseWriteIndex=input.IndexOf(responseWrite);
+
+                const string hello=@"""hello """;
+                var helloIndex=input.IndexOf(hello);
+
+                const string world="world";
+                var worldIndex=input.IndexOf(world);
+
+                {
+                    IAssertion funcNameAssertion=new PositionAssertion(
+                        true,
+                        responseWriteIndex,
+                        responseWriteIndex+responseWrite.Length
+                    );
+                    funcNameAssertion.Name="FunctionName";
+                    fAddAssert(
+                        "FunctionName",
+                        funcNameAssertion
+                    );
+                }
+
+                {
+                    IAssertion quotedTextAssertion=new PositionAssertion(
+                        true,
+                        helloIndex,
+                        helloIndex+hello.Length
+                    );
+
+                    quotedTextAssertion.Name="Args quoted text";
+                    fAddAssert(
+                        "Args quoted text",
+                        quotedTextAssertion
+                    );
+                }
+
+                {
+                    IAssertion ArgsStringConcatenation=new PositionAssertion(
+                        true,
+                        helloIndex+9,
+                        helloIndex+10
+                    );
+
+                    ArgsStringConcatenation.Name="ArgsStringConcatenation";
+                    fAddAssert(
+                        "ArgsStringConcatenation",
+                        ArgsStringConcatenation
+                    );
+                }
+
+                {
+                    IAssertion VbScriptFunctionOrVar=new PositionAssertion(
+                        true,
+                        worldIndex,
+                        worldIndex+world.Length
+                    );
+
+                    VbScriptFunctionOrVar.Name="VbScriptFunctionOrVar";
+                    fAddAssert(
+                        "VbScriptFunctionOrVar",
+                        VbScriptFunctionOrVar
+                    );
+                }
+            };
+
+            int numMatches;
+            string replaced=dotNETConversion.AddParenthesisToFunctionCalls(log,input,out numMatches,fCreateAssertList); 
+            System.Diagnostics.Debug.Assert(numMatches==1);
+            System.Diagnostics.Debug.Assert(replaced==expectedResult);
         }
     }
 }

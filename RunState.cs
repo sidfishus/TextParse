@@ -119,7 +119,9 @@ namespace Sid.Parse.TextPatternParser
 
 					else if(assertRv.Value) {
 						log.LogLine(emphasiseLine);
-						log.LogLine($"Assertion with name '{assertion.Name}' succeeded: beginPos={beginPos}, afterPos={afterPos}");
+						log.LogLine($"Assertion with name '{assertion.Name}' succeeded: beginPos={beginPos}, "+
+							$"({Parser.DisplayPartOfInputString(input,beginPos)}), afterPos={afterPos} " +
+							$"({Parser.DisplayPartOfInputString(input,afterPos)})");
 						log.LogLine(emphasiseLine);
 					}
 

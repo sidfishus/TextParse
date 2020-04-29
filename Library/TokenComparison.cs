@@ -235,40 +235,44 @@ namespace Sid.Parse.TextPatternParser
 
 		// Concatenated single arguments
 		// Delimited by whitespace, comma & or +
-		internal static IComparisonWithAdvance CreateVBScriptConcatCommaOrWhitespace(
+		internal static IComparisonWithAdvance CreateVBScriptConcatCommaOrWhitespaceOrEnd(
 			ILog log,
 			Options options=null
 
 		) {
 			if(options==null) options=CreateVBScriptParserOptions(log);
 
-			OrComparison vbScriptConcatCommaOrWhitespace = new OrComparison(log);
-			vbScriptConcatCommaOrWhitespace.Name = "Args concat or delimiter";
-			vbScriptConcatCommaOrWhitespace.Add(IsWhitespace(log));
+			OrComparison orComp = new OrComparison(log);
+			orComp.Name = "Args concat or delimiter or end";
+			orComp.Add(IsWhitespace(log));
 			CharComparison isAmpersand = new CharComparison(log, options, '&');
 			CharComparison isPlus = new CharComparison(log, options, '+');
 			CharComparison isComma = new CharComparison(log, options, ',');
-			vbScriptConcatCommaOrWhitespace.Add(isAmpersand);
-			vbScriptConcatCommaOrWhitespace.Add(isPlus);
-			vbScriptConcatCommaOrWhitespace.Add(isComma);
+			orComp.Add(isAmpersand);
+			orComp.Add(isPlus);
+			orComp.Add(isComma);
+			// End of the string.
+			orComp.Add(new CustomComparison(log,(pos,input,runState) => pos==input.Length));
 
-			return vbScriptConcatCommaOrWhitespace;
+			return orComp;
 		}
 
 		// E.g.
 		// class.Function _ \r\n (p1, p2, class.Function2( _\r\n p1,p2 ) )
 		// or
 		// class.FunctionWithNoArgs
-		public static IComparisonWithAdvance CreateVBScriptFunction(
+		// or
+		// variableName
+		public static IComparisonWithAdvance CreateVBScriptFunctionOrVar(
 		 Options options,
-		 IComparisonWithAdvance vbScriptConcatCommaOrWhitespace,
+		 IComparisonWithAdvance vbScriptConcatCommaOrWhitespaceOrEnd,
 		 IComparison vbScriptKeywords,
 		 string name = null,
 		 ILog log=null)
 		{
 			if(options == null) options=CreateVBScriptParserOptions(log);
-			if(vbScriptConcatCommaOrWhitespace == null)
-				vbScriptConcatCommaOrWhitespace = CreateVBScriptConcatCommaOrWhitespace(log);
+			if(vbScriptConcatCommaOrWhitespaceOrEnd == null)
+				vbScriptConcatCommaOrWhitespaceOrEnd = CreateVBScriptConcatCommaOrWhitespaceOrEnd(log);
 			if(vbScriptKeywords == null) vbScriptKeywords = TokenComparison.VBScriptKeywords(log, options);
 
 			if (options.SkipLineWrapOperation==null)
@@ -284,7 +288,7 @@ namespace Sid.Parse.TextPatternParser
 			CharComparison isDot = new CharComparison(log, options, '.');
 			OrComparison isDotOrParenOrEnd=new OrComparison(log);
 			isDotOrParenOrEnd.Add(isDot);
-			isDotOrParenOrEnd.Add(vbScriptConcatCommaOrWhitespace);
+			isDotOrParenOrEnd.Add(vbScriptConcatCommaOrWhitespaceOrEnd);
 			CharComparison openParen = new CharComparison(log, options, '(');
 			isDotOrParenOrEnd.Add(openParen);
 			var identifier = TokenComparison.CreateIdentifier(
@@ -319,7 +323,7 @@ namespace Sid.Parse.TextPatternParser
 			// Either the end (and don't advance past it), or function argument list
 			OrComparison isEndOrArgumentList = new OrComparison(log);
 			isEndOrArgumentList.Name="IsEndOrArgumentList";
-			isEndOrArgumentList.Add(new CompareNoAdvance(log,vbScriptConcatCommaOrWhitespace));
+			isEndOrArgumentList.Add(new CompareNoAdvance(log,vbScriptConcatCommaOrWhitespaceOrEnd));
 			isEndOrArgumentList.Add(new NestedOpenCloseComparison(log, openParen, close));
 
 			statementList.Add(isEndOrArgumentList);
