@@ -11,7 +11,7 @@ namespace Sid.Parse.TextPatternParser
 	{
 		public StorePosAsVariable(
 			ILog log,
-			string varName) : base(log,varName,(input,pos,runState) => pos)
+			string varName) : base(log,varName,(pos,input,runState) => pos)
 		{
 		}
 

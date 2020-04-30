@@ -10,15 +10,16 @@ namespace Sid.Parse.TextPatternParser
 	public class SetVariable : OperationBase, IOperation
 	{
 		private string m_VariableName;
-		private Func<string, int, RunState, object> m_Func;
+
+		fOperand<int> m_Operand;
 
 		public SetVariable(
 		 ILog log,
 		 string variableName,
-		 Func<string,int, RunState, object> func) : base(log)
+		 fOperand<int> operand) : base(log)
 		{
 			m_VariableName = variableName;
-			m_Func = func;
+			m_Operand = operand;
 		}
 
 		protected override void PerformImp(
@@ -28,7 +29,7 @@ namespace Sid.Parse.TextPatternParser
 		 RunState runState,
 		 out int index)
 		{
-			runState.SetVariable(m_VariableName, m_Func(input,pos,runState));
+			runState.SetVariable(m_VariableName, m_Operand(pos,input,runState));
 			index = pos;
 		}
 
