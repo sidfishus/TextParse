@@ -1,7 +1,7 @@
 # TextParse
 TextParse is a .NET C# library I created for parsing and replacing text. 
 
-# History
+# Concept
 I was tasked with a project to convert a large ERP web application from classic ASP to ASP .NET because support from Microsoft was soon to expire. The application consisted of 13 modules including 100's of sourcecode files and after making the changes necessary to convert a single file it was clear that an automated process was needed.
 
 Classic ASP uses the VB script language for dynamic rendering whereas ASP .NET uses VB .NET. After manually converting a couple of code files to ASP .NET there seemed to be approximately 20 syntactical differences between the languages. I fathomed that if each 'type' of syntax change would take 1-3 days, it would be an acceptable amount of time to automate the conversion of the entire application. My process in theory was to:
