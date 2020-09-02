@@ -57,3 +57,5 @@ evolved.
 focus on parse accuracy rather than parse efficiency.
 
 each individual set of 'statements' could be unit tested.
+
+NOTE: REPLACE THE GITHUB CLEAR TEXT PASSWORD IN NUGET.CONFIG WITH 'b0aa87c9b44616466778a5379a3dcaf0212dc28b' otherwise this will not work. issues with pushing that live.
