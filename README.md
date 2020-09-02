@@ -34,8 +34,9 @@ When described in this manner it is very easy to understand the intention and pu
 
 ### Outer Fixed Parse Algorithm (OFPA)
 
-If any of the above validations return false the UCPA needs to be executed again but starting at the next character in the input text as opposed to starting at the position of where in the sequence it stopped. Therefore there are 2 algorithms in play:
-1. The OFPA which executes in a linear fashion, starting at the character at position 0 and ends when the end of the input string is found. Executes the UCPA from it's current position and if that runs to completion (a successful match), the OFPA records the position of where the UCPA finished and continues from there. Otherwise if executing a UCPA does not run to completion (unsuccessful match), the OFPA will incremement it's last recorded position by 1 and execute the UCPA again.
+The next thing to consider is how the UCPA should be executed, and therefore there are 2 algorithms in play:
+
+1. The OFPA which executes in a linear fashion, starting at the character at position 0 and ends when the end of the input string is found. At each iteration the UCPA is executed from the OFPA's current position. If an iteration results in an unsuccessful match from the UCPA the OFPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OFPA records the position of where the UCPA finishes and continues iterating from this new position.
 2. The UCPA which can move anywhere in the input string, starts a given position given to it by the OFPA, and executes parse statements in a sequential manner until a validation returns false. Each time a parse statement is executed, the resulting position of the preceding step is passed on to the next parse statement in the sequence.
 
 when user generated succeeds, start from where the user generated algorithm finishes off: 
