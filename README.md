@@ -22,11 +22,15 @@ After each execution of the conversion I could use Microsoft Team Foundation Stu
 
 ## Theory
 I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
-1. Validate that we are at the beginning of the input string, or the preceding character is whitespace. ```// Confirm beginning of word``` 
-2. Validate that the character at the current position is lowercase and alphabetical. ```// Confirm word is at least one character in length```
-3. Move to the next character.
+1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
+2. Validate that the character at the current position is lowercase and alphabetical. ```// Validate word is at least one character in length```
+3. Move until a non lowercase a-z character is found, or we find the end of the string. ```// Find the first non a-z character
+5. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word
 
 
+
+
+fixed algorithm which moves in linear fashion.
 involves having an outer index
 
 I wanted to be able to define a series of steps in a language that a compiler could understand but also in a syntax that was intuitive to a programmer.
