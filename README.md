@@ -22,15 +22,31 @@ After each execution of the conversion I could use Microsoft Team Foundation Stu
 
 ## Theory
 
+### User Created Parse Algorithms (UCPA)
+
 I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
 1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
 2. Validate that the character at the current position is lowercase and alphabetical. ```// Validate word is at least one character in length```
-3. Move until a non lowercase a-z character is found, or we find the end of the string. ```// Find the first non a-z character
-4. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word
+3. Move until a non lowercase a-z character is found, or we find the end of the string. ```// Find the first non a-z character```
+4. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word```
 
-When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole. Furthermore, if the four steps are encapsulated into it's own sub routine it can be reused in future. This will reduce bugs (it's already tested and live) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1) as long as an apt name and description is used.
+When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me, someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine it can be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1) as long as an apt name and description is used. It's also trivial to create unit tests to prove the accuracy of the routine as well as provide regression testing as the parse library evolves over time.
 
-unit tests
+### Outer Fixed Parse Algorithm (OFPA)
+
+If any of the above validations return false the UCPA needs to be executed again but starting at the next character in the input text as opposed to starting at the position of where in the sequence it stopped. Therefore there are 2 algorithms in play:
+1. The OFPA which executes in a linear fashion, starting at the character at position 0 and ends when the end of the input string is found. Executes the UCPA from it's current position and if that runs to completion (a successful match), the OFPA records the position of where the UCPA finished and continues from there. Otherwise if executing a UCPA does not run to completion (unsuccessful match), the OFPA will incremement it's last recorded position by 1 and execute the UCPA again.
+2. The UCPA which can move anywhere in the input string, starts a given position given to it by the OFPA, and executes parse statements in a sequential manner until a validation returns false. Each time a parse statement is executed, the resulting position of the preceding step is passed on to the next parse statement in the sequence.
+
+when user generated succeeds, start from where the user generated algorithm finishes off: 
+
+Think of the parser as executing in a linear fashion, but with the user created algorithm having the ability to move ANYWHERE within the input string.
+
+If the user created parse routine runs to completion ...
+
+second routine
+
+
 
 If any of the validation steps (1, 2, 4) return false, then 
 
