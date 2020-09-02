@@ -36,24 +36,10 @@ When described in this manner it is very easy to understand the intention and pu
 
 The next thing to consider is how the UCPA should be executed, and therefore there are 2 algorithms in play:
 
-1. The OFPA which executes in a linear fashion, starting at the character at position 0 and ends when the end of the input string is found. At each iteration the UCPA is executed from the OFPA's current position. If an iteration results in an unsuccessful match from the UCPA the OFPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OFPA records the position of where the UCPA finishes and continues iterating from this new position.
-2. The UCPA which can move anywhere in the input string, starts a given position given to it by the OFPA, and executes parse statements in a sequential manner until a validation returns false. Each time a parse statement is executed, the resulting position of the preceding step is passed on to the next parse statement in the sequence.
-
-when user generated succeeds, start from where the user generated algorithm finishes off: 
-
-Think of the parser as executing in a linear fashion, but with the user created algorithm having the ability to move ANYWHERE within the input string.
-
-If the user created parse routine runs to completion ...
-
-second routine
+1. The OFPA which executes in a linear fashion starting at the first character and stops when the end of the input text is found. At each iteration the UCPA is executed from the OFPA's current position. If an iteration results in an unsuccessful match from the UCPA the OFPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OFPA records the position of where the UCPA finishes and continues iterating from the new position.
+2. The UCPA which starts at the position passed to it by the OFPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
 
 
-
-If any of the validation steps (1, 2, 4) return false, then 
-
-
-fixed algorithm which moves in linear fashion.
-involves having an outer index
 
 I wanted to be able to define a series of steps in a language that a compiler could understand but also in a syntax that was intuitive to a programmer.
 
