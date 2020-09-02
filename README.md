@@ -21,7 +21,15 @@ My process in theory was to:
 After each execution of the conversion I could use Microsoft Team Foundation Studio to 'diff' the changed files for changes before checking them in. This would serve as a method of regression testing and unit testing to ensure that any new changes to the library and conversion operations made in that iteration had not broken anything, so I was never going two steps forward and then one step back. The annotate ('blame' in Git) feature would come in handy when errors were found to determine at what iteration a breaking change was introduced and therefore give me a starting point for fixing the issue.
 
 ## Theory
-I figured that it should be possible be able to parse anything providing I could describe the routine as a series of steps. I wanted to be able to define a series of steps in a language that a compiler could understand but also in a syntax that was intuitive to a programmer.
+I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
+1. Validate that we are at the beginning of the input string, or the preceding character is whitespace. ```// Confirm beginning of word``` 
+2. Validate that the character at the current position is lowercase and alphabetical. ```// Confirm word is at least one character in length```
+3. Move to the next character.
+
+
+involves having an outer index
+
+I wanted to be able to define a series of steps in a language that a compiler could understand but also in a syntax that was intuitive to a programmer.
 
 C# class syntax.
 
