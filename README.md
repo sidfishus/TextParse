@@ -1,4 +1,5 @@
 # TextParse
+
 TextParse is a .NET C# library I created for parsing and replacing text. //sidtodo
 
 # Concept
