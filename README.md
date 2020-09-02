@@ -21,13 +21,18 @@ My process in theory was to:
 After each execution of the conversion I could use Microsoft Team Foundation Studio to 'diff' the changed files for changes before checking them in. This would serve as a method of regression testing and unit testing to ensure that any new changes to the library and conversion operations made in that iteration had not broken anything, so I was never going two steps forward and then one step back. The annotate ('blame' in Git) feature would come in handy when errors were found to determine at what iteration a breaking change was introduced and therefore give me a starting point for fixing the issue.
 
 ## Theory
+
 I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
 1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
 2. Validate that the character at the current position is lowercase and alphabetical. ```// Validate word is at least one character in length```
 3. Move until a non lowercase a-z character is found, or we find the end of the string. ```// Find the first non a-z character
-5. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word
+4. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word
 
+When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole. Furthermore, if the four steps are encapsulated into it's own sub routine it can be reused in future. This will reduce bugs (it's already tested and live) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1) as long as an apt name and description is used.
 
+unit tests
+
+If any of the validation steps (1, 2, 4) return false, then 
 
 
 fixed algorithm which moves in linear fashion.
