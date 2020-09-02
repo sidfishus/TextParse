@@ -37,7 +37,9 @@ When described in this manner it is very easy to understand the intention and pu
 The next thing to consider is how the UCPA should be executed, and therefore there are 2 algorithms in play:
 
 1. The OFPA which executes in a linear fashion starting at the first character and stops when the end of the input text is found. At each iteration the UCPA is executed from the OFPA's current position. If an iteration results in an unsuccessful match from the UCPA the OFPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OFPA records the position of where the UCPA finishes and continues iterating from the new position.
-2. The UCPA which starts at the position passed to it by the OFPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
+2. The UCPA starts at the position passed to it by the OFPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
+
+## C# Object Oriented Design
 
 
 
