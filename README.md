@@ -70,7 +70,7 @@ The only difference in terms of syntax/execution is that an operation cannot cau
 
 ### Programming Language/Platform ###
 
-I decided to choose .NET and C# due to it's 
+I had already decided that I would be designing this using an object oriented approach. So I decided to create the library in .NET and C# due to the plethora of inbuilt functionality and intuitive OO syntax. Having a gargage collector would also reduce the complexity allowing me to focus on making the parser as accurate and resilient as possible. I was focusing on accuracy and human readability as opposed to performance, however after parsing entire directories containing 100's of files I am more than satisfied with the speed taken.
 
 ### Progress ###
 
