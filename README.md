@@ -122,9 +122,11 @@ namespace TextParseTesting
 
 Below is the current list of statement types available alongside a brief description of what they do:
 
+
 | Type | Parameter(s) | Description | Notes |
 ---------------------------------------------
 | StringComparison | Compare string | Compare the string at the current position against the compare string. | The options parameter specifies whether the comparison is case sensitive. |
+
 
 ### Creating New Statement Types and Sub Routines ### 
 
