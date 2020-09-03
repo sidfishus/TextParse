@@ -58,13 +58,13 @@ My first idea was to create a psuedo language that could be parsed and converted
    1. Compare against string 'hello'
    1. AND THEN Compare against a single character in the sequence 1, 2, or 3.
 
-The second parse statement is a combination of statements but because the parse statement list class ('StatementList') derives from the same interface as the individual parse statements (IComparsonWithAdvance), the parse statement list type can be used anywhere a parse statement is required and removes the need for the caller to have any knowledge of how it is implemented. The only contract between the 'or' statement and it's child parse statements is that when executed for a given input text and a starting position, the 'or' statement will be returned an output position and a result indicating whether it was a successful match.
+The second parse statement of the 'or' is a combination of statements and because the parse statement list class ('StatementList') derives from the same interface as an individual parse statement (IComparsonWithAdvance), the parse statement list type can be used anywhere a parse statement is required. Thus removes the need for the caller to have any knowledge of how the parse statement is implemented. The only contract between the 'or' statement and it's child parse statements is that the child will be given the input text and a starting position and will return an output position alongside a result indicating whether it was a successful match.
 
 The statement types are of one of 2 categories:
 - Comparison: validate from the given position, return the output position, and return true false to indicate whether the match was successful.
 - Operation: do something and return the output position. For example this could be setting a user defined variable where the output position will be returned as the input position, or moving to elsewhere within the input text and returning that position.
 
-The only difference in terms of syntax/execution is that an operation cannot cause the parsing to stop and I've since concluded that this distinction of categories is not necessary. The only result required is the output position which could be returned as -1 to indicate a failed match.
+The only difference in terms of syntax/execution is that an operation cannot cause the parsing to stop. I've since concluded that this distinction of categories is not necessary and the only result necessary is the output position which could be returned as -1 to indicate a failed match.
 
 
 
