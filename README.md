@@ -69,6 +69,9 @@ The only difference in terms of syntax/execution is that an operation cannot cau
 
 
 
+== Creating Sub Routines ==
+<incomp>
+
 explain IComparisonWithAdvance
 
 
