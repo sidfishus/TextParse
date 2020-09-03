@@ -46,16 +46,22 @@ Each individual parse statement would be an instance of a given type of operatio
 2. The position within the input text to begin at.
 3. The output position within the input text, or a value to indicate stop/unsuccessful match.
 
-New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible.
+New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible. I.e. there would be a built in statement type for a string comparison, and a statement type that would act as the 'OR' operator, for example. And it should be possible to combine statements together to increase their reuse.
 
 ## Practical
 
-Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer. My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list. The parse statement classes would all derive from a common base class and leverage polymorphism to allow them to be called via a reference to the base class.
+Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer. My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA along with the input text. The parse statement classes would all derive from a common interface and leverage polymorphism to allow them to be called via a reference to the interface and interface method. The statement types would be one of 2 categories:
+- Comparison
+- Operation
+
+
 
 Note: <distinction not necessary, only need something that's given an input index and returns an output index or -1 to indicate fail/stop.>
 
 
 not terse enough
+
+provided the names of the statement types were descriptive and terse
 
 
 
