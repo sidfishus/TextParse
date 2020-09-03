@@ -50,6 +50,8 @@ New statements could be added over time as/when needed to further extend the par
 
 ## Practical
 
+### Initial Approach ###
+
 Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer.
 
 My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA along with the input text. The parse statement classes would all derive from a common interface (IComparisonWithAdvance) and leverage polymorphism to allow them to be called via a reference to the interface. This is key because it allows any type, combination, or list of parse statements to be used anywhere that a single parse statement is required because everything that can be executed as part of a UCPA derives from the same interface and implements the same parse interface method. For example this is very useful for the 'or' statement which takes a list of parse statements and executes them sequentially until a match is found because it makes the following algorithm possible:
@@ -66,9 +68,17 @@ The statement types are of one of 2 categories:
 
 The only difference in terms of syntax/execution is that an operation cannot cause the parsing to stop. I've since concluded that this distinction of categories is not necessary and the only result necessary is the output position which could be returned as -1 to indicate a failed match.
 
+### Programming Language/Platform ###
+
+I decided to choose .NET and C# due to it's 
+
+### Progress ###
+
+I quickly gave up on the idea of creating a psuedo language because it was taking me too long to parse it, was too verbose and also difficult to follow when performing complex parse algorithm's. However the C# class syntax I was already using to create the parse statements as a result of parsing the psuedo language seemed appropriate for the task and had the added benefit of removing the need for an intermediate language.
 
 
-== Creating Sub Routines ==
+
+== Creating Sub Routines and new types ==
 <incomp>
 
 explain IComparisonWithAdvance
@@ -116,5 +126,7 @@ evolved.
 focus on parse accuracy rather than parse efficiency.
 
 each individual set of 'statements' could be unit tested.
+
+unit tests
 
 NOTE: REPLACE THE GITHUB CLEAR TEXT PASSWORD IN NUGET.CONFIG WITH 'b0aa87c9b44616466778a5379a3dcaf0212dc28b' otherwise this will not work. issues with pushing that live.
