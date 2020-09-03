@@ -32,22 +32,27 @@ I figured that it should be possible be able to parse and replace/convert anythi
 
 When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me as someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine it can be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1) as long as an apt name and description is used. It's also trivial to create unit tests to prove the accuracy of the routine as well as provide regression testing as the parse library evolves over time.
 
-### Outer Fixed Parse Algorithm (OFPA)
+### Outer Linear Parse Algorithm (OLPA)
 
 The next thing to consider is how the UCPA should be executed, and therefore there are 2 algorithms in play:
 
-1. The OFPA which executes in a linear fashion starting at the first character and stops when the end of the input text is found. At each iteration the UCPA is executed from the OFPA's current position. If an iteration results in an unsuccessful match from the UCPA the OFPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OFPA records the position of where the UCPA finishes and continues iterating from the new position.
-2. The UCPA starts at the position passed to it by the OFPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
+1. The OLPA which executes in a linear fashion starting at the first character and stops when the end of the input text is found. At each iteration the UCPA is executed from the OLPA's current position. If an iteration results in an unsuccessful match from the UCPA the OLPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OLPA records the position of where the UCPA finishes and continues iterating from the new position.
+2. The UCPA starts at the position passed to it by the OLPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
 
-### Statements
+### Individual Statements
 
-//sidtodo
+Each individual parse statement would be an instance of a given type of operation that would be passed the same parameters:
+1. The input text that is being parsed.
+2. The position within the input text to begin at.
+3. The output position within the input text, or a value to indicate stop/unsuccessful match.
+
+New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible.
 
 ## Practical
 
 Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer. My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list. The parse statement classes would all derive from a common base class and leverage polymorphism to allow them to be called via a reference to the base class.
 
-
+Note: <distinction not necessary, only need something that's given an input index and returns an output index or -1 to indicate fail/stop.>
 
 
 not terse enough
