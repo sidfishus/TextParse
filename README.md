@@ -51,12 +51,12 @@ New statements could be added over time as/when needed to further extend the par
 ## Practical
 
 Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer. My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA along with the input text. The parse statement classes would all derive from a common interface and leverage polymorphism to allow them to be called via a reference to the interface and interface method. The statement types would be one of 2 categories:
-- Comparison
-- Operation
+- Comparison: validate from the given position, return the output position, and return true false to indicate whether the match was successful.
+- Operation: do something and return the output position. For example this could be setting a user defined variable where the output position will be returned as the input position, or moving to elsewhere within the input text and returning that position.
 
+The only difference in terms of syntax/execution is that an operation cannot cause the parsing to stop and I've since concluded that this distinction is not necessary and the only result required is the output position which could be returned as -1 to indicate a failed match.
 
-
-Note: <distinction not necessary, only need something that's given an input index and returns an output index or -1 to indicate fail/stop.>
+explain IComparisonWithAdvance
 
 
 not terse enough
