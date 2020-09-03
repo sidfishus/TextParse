@@ -124,7 +124,7 @@ Below is the current list of statement types available alongside a brief descrip
 
 
 | Type | Parameter(s) | Description | Notes |
----------------------------------------------
+| ---- | ------------ | ----------- | ----- |
 | StringComparison | Compare string | Compare the string at the current position against the compare string. | The options parameter specifies whether the comparison is case sensitive. |
 
 
