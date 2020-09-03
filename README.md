@@ -76,7 +76,46 @@ I had already decided that I would be designing this using an object oriented ap
 
 I quickly gave up on the idea of creating a psuedo language because it was taking me too long to parse it and was too verbose and difficult to follow when describing complex parse algorithm's. However the C# class syntax I was already using to create the parse statements as a result of parsing the psuedo language seemed appropriate for the task and had the added benefit of removing the need for an intermediate language.
 
+### Simple Example ###
+Below is a simple example I created for the purpose of illustrating the syntax of a TextParse program:
 
+```
+using System;
+using Sid.Parse.TextPatternParser;
+using StringComparison = Sid.Parse.TextPatternParser.StringComparison;
+using Sid.Log;
+
+namespace TextParseTesting
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ILog log=null;
+            
+            var stmtList = new StatementList(log);
+
+            var orStmt=new OrComparison(log);
+
+            var options=new Options(log);
+            options.CaseSensitive=false;
+
+            var knownGreetings=new string[]{"hello","hi","hey","yo","hiya"};
+            Array.ForEach(knownGreetings,(str) => orStmt.Add(new StringComparison(log,options,str)));
+            stmtList.Add(orStmt);
+
+            Console.WriteLine("Hello..");
+            var userInput=Console.ReadLine();
+
+            var parser=new Parser(log);
+            int numMatches;
+            parser.Extract(userInput,null,stmtList,null,null,out numMatches,(unused1,unused2,unused3)=>null,null);
+
+            Console.WriteLine("Greeting {0}understood.",((numMatches>=1)?"":"not "));
+        }
+    }
+}
+```
 
 == Creating Sub Routines and new types ==
 <incomp>
