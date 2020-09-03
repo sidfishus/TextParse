@@ -53,11 +53,9 @@ New statements could be added over time as/when needed to further extend the par
 Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer.
 
 My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA along with the input text. The parse statement classes would all derive from a common interface (IComparisonWithAdvance) and leverage polymorphism to allow them to be called via a reference to the interface. This is key because it allows any type, combination, or list of parse statements to be used anywhere that a single parse statement is required because everything that can be executed as part of a UCPA derives from the same interface and implements the same parse interface method. For example this is very useful for the 'or' statement which takes a list of parse statements and executes them sequentially until a match is found because it makes the following algorithm possible:
-1. Compare against string 'test' (string comparison)
-OR
+1. Compare against string 'test' (string comparison), OR
 2.
- 1. Compare against string 'hello'
-AND
+ 1. Compare against string 'hello', AND
  2. Compare against a single character in the sequence 1, 2, or 3.
 
 The second parse statement is a combination of statements but because the parse statement list class ('StatementList') derives from the same interface as the individual parse statements (IComparsonWithAdvance), the parse statement list type can be used anywhere a parse statement is required and removes the need for the caller to have any knowledge of how it is implemented. The only contract between the 'or' statement and it's child parse statements is that when executed for a given input text and a starting position, the 'or' statement will be returned an output position and a result indicating whether it was a successful match.
