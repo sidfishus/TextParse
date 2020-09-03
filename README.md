@@ -74,7 +74,7 @@ I had already decided that I would be designing this using an object oriented ap
 
 ### Progress ###
 
-I quickly gave up on the idea of creating a psuedo language because it was taking me too long to parse it, was too verbose and also difficult to follow when performing complex parse algorithm's. However the C# class syntax I was already using to create the parse statements as a result of parsing the psuedo language seemed appropriate for the task and had the added benefit of removing the need for an intermediate language.
+I quickly gave up on the idea of creating a psuedo language because it was taking me too long to parse it and was too verbose and difficult to follow when describing complex parse algorithm's. However the C# class syntax I was already using to create the parse statements as a result of parsing the psuedo language seemed appropriate for the task and had the added benefit of removing the need for an intermediate language.
 
 
 
