@@ -166,10 +166,9 @@ Below is the current list of statement types with notes explaining their useage:
 | String Offset Comparison | Length (fOperand<int>), offset (fOperand<int>), reverse (bool) | Compare the string denoted by the current position in the input text and length parameter against another part of the input string denoted by the offset parameter | Used by the palindrome built in examples |
 | Toggle Log Status | Enable (bool) | Enable or disable the log | |
 
+# User Interface #
 
-
-== user interface ==
-<incomp>
+I've since created a React web application that demonstrates how the parse library works: http://chrissiddall.azurewebsites.net.
 
 
 ... incomp
