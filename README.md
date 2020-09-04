@@ -184,7 +184,12 @@ For each step, a cross or tick is displayed against the relevant sections to den
 1. The .NET/C# code equivalent of the parse statements will also be printed to the web browser console.
 
 ## Technical ##
-React.
+
+All of the information entered by the user for parsing is stored as functions/objects in the browser by React/Javascript. Upon parse execution in the front end all of this information is then converted to the .NET/C# code necessary to execute the parse routine, and then HTTP POST'd to the ASP .NET MVC Core controller which handles parsing as a string. The controller then
+
+The code for the entire application can be found at https://github.com/sidfishus/react-spa-demo.
+
+only assemblies needed for the parser are included.
 
 ## Features ##
 1. Most of the parse statement types.
