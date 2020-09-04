@@ -138,6 +138,7 @@ Below is the current list of statement types with notes explaining their useage:
 | Advance to the End | | Advance to the end of the input text | Can be used to prematurely stop the OLPA for example to improve performance if only a single match is required 
 | Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool) | Advance until the comparison returns true. | If the end of the input string is reached without the comparison matching, false is returned (no match) |
 | Advance While Operation | Comparison (IComparisonWithAdvance) | Advance whilst the comparison returns true |  |
+| Capture | Comparison (IComparsonWithAdvance) | Extract the text which matches 'comparison'. | Captured text is stored against a given name/identifier and is available when the UCPA reaches the end of a successful match |
 | Char Comparison | Chr (char) | Compare the character at the current position with 'Chr' | The options parameter specifies case sensitivity |
 | Char Delegate Comparison | Char delegate (bool (char)) | |
 | Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a look around
