@@ -173,7 +173,15 @@ It can be used to create and execute a UCPA visually as opposed to through lines
 
 ## Useage ##
 
+For each step, a cross or tick is displayed against the relevant sections to denote whether all required information has been entered.
 
+1. Create user defined functions and variables if any are required.
+1. Create the individual parse statements and arrange them in to the correct order.
+1. Enter the parse text in the input section.
+1. Select which type of parse routine you wish to use in the parse output section.
+1. Press the execute parse button, it will be green or red depending on whether all required information has been entered.
+1. The parse result will display in the output section.
+1. The .NET/C# code equivalent of the parse statements will also be printed to the web browser console.
 
 ## Technical ##
 React.
