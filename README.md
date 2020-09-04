@@ -132,6 +132,8 @@ Below is the current list of statement types available alongside a brief descrip
 | Delimited List Comparison | Comparison (IComparisonWithAdvance), seperator (IComparisonWithAdvance) | Parse a delimited list where values are compared against 'Comparison' and are delimited by the 'seperator' comparison | It's possible to specify a minimum and maximum number of items expected |
 | Match Everything Comparison | | Return the current position plus 1 | This is the same as using the advance operation with a forward value of 1. May be useful in situations where this name describes the algorithm more concisely |
 | Nested Open Close Comparison | Open (IComparisonWithAdvance), close (IComparisonWithAdvance) | This is quite niche. Matchs against the open comparison and advances until the close comparison is found. The number of 'close' comparisons must match the number of 'open' comparisons in order for it to stop - hence the 'nested' aspect of the name | For example can be used to parse function arguments by using '(' as the open comparison and ')' as the close comparison |
+| Not Comparison | Comparison (IComparison) | Run a comparison but invert the result | This does not advance |
+| Or Comparison | Comparison list (IList<IComparisonWithAdvance) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 
 
