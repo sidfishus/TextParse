@@ -139,6 +139,8 @@ Below is the current list of statement types available alongside a brief descrip
 | Not Comparison | Comparison (IComparison) | Run a comparison but invert the result | This does not advance |
 | Or Comparison | Comparison list (IList<IComparisonWithAdvance) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
 | Set Log Level | Level (int) | Update the log level | Can be used to enable/disable logging or increase/decrease logging verbosity |
+| Set Variable | Variable name (string), value (fOperand<int>) | Assign the value to a user defined variable | |
+| Store Position as Variable | Variable name (string) | Store the current position as a variable | For example if you need to refer back to this position at a later date |
 | Start of Input String Comparison | | Returns true if the current position is the beginning of the input text | |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 | String Comparison Skip Whitespace | Str (string) | Compare the string at the current position in the input text against 'Str' but ignore any differences in whitespace | This is not necessary as it's own statement type. A sub routine that composes the other statement types could perform the same job |
