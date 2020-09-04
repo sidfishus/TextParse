@@ -120,12 +120,14 @@ namespace TextParseTesting
 
 ### Types / Interfaces / Classes ###
 
-Below is the list of existing types e.t.c. that a user/developer may need to be concerned with:
+Below is the list of existing types e.t.c. that a user/developer may need to be concerned with when using the parser:
 
 | Type e.t.c. | Description | Notes |
 | ----------- | ----------- | ----- |
 | fOperand<T> | A delegate that has access to the input string, current position, and run state. The generic type parameter determines the resulting type | For example used to parameterise parse statements with dynamic values |
-| RunState | Holds the parse state and is used to access user defined variables and functions |
+| IAssertion | An interface that all assertions must implement | A given parse statement can have any number of assertions associated with it. These assertions are executed after a parse statement has finished. Used for identifying bugs |
+| Position Assertion | Assert for a particular parse statement what the expected output position and result should be in relation to the start position | Used for identifying the individual parse statement(s) that are not working in complex UCPA's that are giving unexpected results |
+| RunState | Holds the parse state | Is used to access user defined variables and functions |
 
 ### Statement Types ###
 
