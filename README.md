@@ -168,7 +168,7 @@ Below is the current list of statement types with notes explaining their useage:
 
 # User Interface #
 
-I've since created a React web application that demonstrates how the parse library works: http://chrissiddall.azurewebsites.net.
+I've since created a React web application that demonstrates how the parse library works: http://chrissiddall.azurewebsites.net/textparse.
 
 
 ... incomp
