@@ -118,6 +118,15 @@ namespace TextParseTesting
 }
 ```
 
+### Types / Interfaces / Classes ###
+
+Below is the list of existing types e.t.c. that a user/developer may need to be concerned with:
+
+| Type e.t.c. | Description | Notes |
+| ----------- | ----------- | ----- |
+| fOperand<T> | A delegate that has access to the input string, current position, and run state | For example used to parameterise parse statements with dynamic values |
+| RunState |   | Used to access user defined variables and functions //sidtodo
+
 ### Statement Types ###
 
 Below is the current list of statement types with notes explaining their useage:
