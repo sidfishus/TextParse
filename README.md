@@ -137,6 +137,7 @@ Below is the current list of statement types available alongside a brief descrip
 | Start of Input String Comparison | | Returns true if the current position is the beginning of the input text | |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 | String Comparison Skip Whitespace | Str (string) | Compare the string at the current position in the input text against 'Str' but ignore any differences in whitespace | This is not necessary as it's own statement type. A sub routine that composes the other statement types could perform the same job |
+| String Offset Comparison | Length (fOperand<int>), offset (fOperand<int>), reverse (bool) | Compare the string denoted by the current position in the input text and length parameter against another part of the input string denoted by the offset parameter | Used by the palindrome built in examples |
 
 
 ### Creating New Statement Types and Sub Routines ### 
