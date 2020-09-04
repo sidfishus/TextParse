@@ -195,16 +195,16 @@ All of the information entered by the user for parsing is stored as functions/ob
 1. User defined functions.
 1. User defined variables.
 1. Different parse algorithms:
-   1. Match
-   1. Extract single
-   1. Extract all
-   1. Replace
-1. All C# code is logged to the console.
-1. 7 Built in examples ...
+   1. Match: display whether the input matches the parse statements.
+   1. Extract single: extract and display the first item which matches the parse statements.
+   1. Extract all: extract and display all items which matches the parse statements.
+   1. Replace: replace entries matching the parse statement list according to the replace format and retain any text which does not match
+1. 7 fully working built in examples.
+1. The full C# code to the parse application produced is logged to the browser console window to help with identifying bugs in the library or the UCPA.
 
 ## Images ##
 
-See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images showing how to use the user interface.
+See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images.
 
 
 
