@@ -127,13 +127,17 @@ Below is the current list of statement types available alongside a brief descrip
 | Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool), continue comparison (IComparisonWithAdvance) | //sidtodo |
 | Char Comparison | Chr (char) | Compare the character at the current position with 'Chr' | The options parameter specifies case sensitivity |
 | Char Delegate Comparison | Char delegate (bool (char)) | |
-| Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move progress | Can be used a look around
+| Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a look around
+| Custom Comparison | Custom comparison delegate (bool (int,string,RunState)) | Compare and advance according to a user specified delegate | Only use if an existing statement or sub routine does not achieve your goal and it doesn't make sense to reuse this in the future |
+| Delimited List Comparison | Comparison (IComparisonWithAdvance), seperator (IComparisonWithAdvance) | Parse a delimited list where values are compared against 'Comparison' and are delimited by the 'seperator' comparison | It's possible to specify a minimum and maximum number of items |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 
 
 ### Creating New Statement Types and Sub Routines ### 
 
 == Creating Sub Routines and new types ==
+
+== interfaces/classes ==
 
 == user interface ==
 <incomp>
