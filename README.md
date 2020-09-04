@@ -124,8 +124,8 @@ Below is the list of existing types e.t.c. that a user/developer may need to be 
 
 | Type e.t.c. | Description | Notes |
 | ----------- | ----------- | ----- |
-| fOperand<T> | A delegate that has access to the input string, current position, and run state | For example used to parameterise parse statements with dynamic values |
-| RunState |   | Used to access user defined variables and functions //sidtodo
+| fOperand<T> | A delegate that has access to the input string, current position, and run state. The generic type parameter determines the resulting type | For example used to parameterise parse statements with dynamic values |
+| RunState | Holds the parse state and is used to access user defined variables and functions |
 
 ### Statement Types ###
 
@@ -149,8 +149,9 @@ Below is the current list of statement types with notes explaining their useage:
 | Or Comparison | Comparison list (IList<IComparisonWithAdvance) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
 | Set Log Level | Level (int) | Update the log level | Can be used to increase/decrease logging verbosity |
 | Set Variable | Variable name (string), value (fOperand<int>) | Assign the value to a user defined variable | |
-| Store Position as Variable | Variable name (string) | Store the current position as a variable | For example if you need to refer back to this position at a later date |
 | Start of Input String Comparison | | Returns true if the current position is the beginning of the input text | |
+| Statement List | List<IStatement> | Execute a list of parse statements until the end is reached or a comparison returns no match |  |
+| Store Position as Variable | Variable name (string) | Store the current position as a variable | For example if you need to refer back to this position at a later date |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 | String Comparison Skip Whitespace | Str (string) | Compare the string at the current position in the input text against 'Str' but ignore any differences in whitespace | This is not necessary as it's own statement type. A sub routine that composes the other statement types could perform the same job |
 | String Offset Comparison | Length (fOperand<int>), offset (fOperand<int>), reverse (bool) | Compare the string denoted by the current position in the input text and length parameter against another part of the input string denoted by the offset parameter | Used by the palindrome built in examples |
