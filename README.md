@@ -166,60 +166,21 @@ Below is the current list of statement types with notes explaining their useage:
 | String Offset Comparison | Length (fOperand<int>), offset (fOperand<int>), reverse (bool) | Compare the string denoted by the current position in the input text and length parameter against another part of the input string denoted by the offset parameter | Used by the palindrome built in examples |
 | Toggle Log Status | Enable (bool) | Enable or disable the log | |
 
-### Creating New Statement Types and Sub Routines ### 
 
-== Creating Sub Routines and new types ==
-
-== interfaces/classes ==
 
 == user interface ==
 <incomp>
 
-explain IComparisonWithAdvance
-
-
-not terse enough
-
-provided the names of the statement types were descriptive and terse
-
-
-
-
-
-C# class syntax.
-
-Probably more pertinent names for this library would be "Parse What You See", or "Linear Parser".
 
 ... incomp
 
 notes:
 
-2 days per operation, as well as extending the parser, and for further use.
 
 since used it to parse HTML and XML.
 
- 
-idea would be to run the conversion. test. find errors. create new parse routine. re-run parse conversion, find the next type of error.
 
 project wasn't finished.
-
-human readable
-
-borrowed the idea of 'capturing' and look arounds (change the position via 'advance') from regex.
-
-linear
-
-parse what you see. describe.
-
-use parse statement to build more complex.
-
-IComparisonWithAdvance base classes.
-
-evolved.
-
-focus on parse accuracy rather than parse efficiency.
-
-each individual set of 'statements' could be unit tested.
 
 unit tests
 
