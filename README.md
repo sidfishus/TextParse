@@ -129,7 +129,9 @@ Below is the current list of statement types available alongside a brief descrip
 | Char Delegate Comparison | Char delegate (bool (char)) | |
 | Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a look around
 | Custom Comparison | Custom comparison delegate (bool (int,string,RunState)) | Compare and advance according to a user specified delegate | Only use if an existing statement or sub routine does not achieve your goal and it doesn't make sense to reuse this in the future |
-| Delimited List Comparison | Comparison (IComparisonWithAdvance), seperator (IComparisonWithAdvance) | Parse a delimited list where values are compared against 'Comparison' and are delimited by the 'seperator' comparison | It's possible to specify a minimum and maximum number of items |
+| Delimited List Comparison | Comparison (IComparisonWithAdvance), seperator (IComparisonWithAdvance) | Parse a delimited list where values are compared against 'Comparison' and are delimited by the 'seperator' comparison | It's possible to specify a minimum and maximum number of items expected |
+| Match Everything Comparison | | Return the current position plus 1 | This is the same as using the advance operation with a forward value of 1. May be useful in situations where this name describes the algorithm more concisely |
+| Nested Open Close Comparison |  |  |  |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 
 
