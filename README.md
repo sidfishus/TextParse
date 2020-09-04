@@ -124,7 +124,11 @@ Below is the current list of statement types available alongside a brief descrip
 
 | Type | Parameter(s) | Description | Notes |
 | ---- | ------------ | ----------- | ----- |
-| Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool), continue comparison (IComparisonWithAdvance) | //sidtodo |
+| Advance | Position (fOperand<int>) | Advance to the position denoted by the position operand |  |
+| Advance If | Comparison (IComparisonWithAdvance) | Optionally advance if the comparison returns true |  |
+| Advance to the End | | Advance to the end of the input text | Can be used to prematurely stop the OLPA for example to improve performance if only a single match is required 
+| Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool) | Advance until the comparison returns true. | If the end of the input string is reached without the comparison matching, false is returned (no match) |
+| Advance While Operation | Comparison (IComparisonWithAdvance) | Advance whilst the comparison returns true |  |
 | Char Comparison | Chr (char) | Compare the character at the current position with 'Chr' | The options parameter specifies case sensitivity |
 | Char Delegate Comparison | Char delegate (bool (char)) | |
 | Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a look around
@@ -134,6 +138,7 @@ Below is the current list of statement types available alongside a brief descrip
 | Nested Open Close Comparison | Open (IComparisonWithAdvance), close (IComparisonWithAdvance) | This is quite niche. Matchs against the open comparison and advances until the close comparison is found. The number of 'close' comparisons must match the number of 'open' comparisons in order for it to stop - hence the 'nested' aspect of the name | For example can be used to parse function arguments by using '(' as the open comparison and ')' as the close comparison |
 | Not Comparison | Comparison (IComparison) | Run a comparison but invert the result | This does not advance |
 | Or Comparison | Comparison list (IList<IComparisonWithAdvance) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
+| Set Log Level | Level (int) | Update the log level | Can be used to enable/disable logging or increase/decrease logging verbosity |
 | Start of Input String Comparison | | Returns true if the current position is the beginning of the input text | |
 | String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 | String Comparison Skip Whitespace | Str (string) | Compare the string at the current position in the input text against 'Str' but ignore any differences in whitespace | This is not necessary as it's own statement type. A sub routine that composes the other statement types could perform the same job |
