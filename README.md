@@ -166,9 +166,31 @@ Below is the current list of statement types with notes explaining their useage:
 | String Offset Comparison | Length (fOperand<int>), offset (fOperand<int>), reverse (bool) | Compare the string denoted by the current position in the input text and length parameter against another part of the input string denoted by the offset parameter | Used by the palindrome built in examples |
 | Toggle Log Status | Enable (bool) | Enable or disable the log | |
 
-# User Interface #
+# Text Parse User Interface Application #
 
-I've since created a React web application that demonstrates how the parse library works: http://chrissiddall.azurewebsites.net/textparse.
+I have created a live React web application that is hosted within Azure which demonstrates how the Text Parse library works: http://chrissiddall.azurewebsites.net/textparse. 
+It can be used to create and execute a UCPA visually as opposed to through lines of code and may give a different perspective for a deeper understanding.
+
+## Useage ##
+
+
+
+## Technical ##
+React.
+
+## Features ##
+1. Most of the parse statement types.
+1. User defined functions.
+1. User defined variables.
+1. Different types of matching e.t.c. //sidtodo
+1. Built in examples that log to the console //sidtodo
+
+## Images ##
+
+See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images showing how to use the user interface.
+
+
+
 
 
 ... incomp
