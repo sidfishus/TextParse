@@ -124,8 +124,11 @@ Below is the current list of statement types available alongside a brief descrip
 
 | Type | Parameter(s) | Description | Notes |
 | ---- | ------------ | ----------- | ----- |
-| String Comparison | Compare string | Compare the string at the current position in the input text against the compare string. | The options parameter specifies whether the comparison is case sensitive. |
-| Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (boolean), continue comparison (IComparisonWithAdvance) | //sidtodo |
+| Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool), continue comparison (IComparisonWithAdvance) | //sidtodo |
+| Char Comparison | Chr (char) | Compare the character at the current position with 'Chr' | The options parameter specifies case sensitivity |
+| Char Delegate Comparison | Char delegate (bool (char)) | |
+| Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move progress | Can be used a look around
+| String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 
 
 ### Creating New Statement Types and Sub Routines ### 
