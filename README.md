@@ -191,11 +191,16 @@ All of the information entered by the user for parsing is stored as functions/ob
 
 ## Features ##
 
-1. Most of the parse statement types.
+1. The majority of the parse statement types.
 1. User defined functions.
 1. User defined variables.
-1. Different types of matching e.t.c. //sidtodo
-1. Built in examples that log to the console //sidtodo
+1. Different parse algorithms:
+   1. Match
+   1. Extract single
+   1. Extract all
+   1. Replace
+1. All C# code is logged to the console.
+1. 7 Built in examples ...
 
 ## Images ##
 
