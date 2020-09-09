@@ -18,7 +18,7 @@ I was tasked with a project to convert a large ERP web application from classic 
 Classic ASP uses the VB script language for dynamic rendering whereas ASP .NET uses VB .NET. After manually converting a couple of code files to ASP .NET there seemed to be approximately 20 syntactical differences between the languages. Effectively what I was looking to achieve was to create a transpiler that converts from VB script to VB .NET. 
 I fathomed that if each 'type' of syntax conversion would take 1-3 days to complete it would be an acceptable amount of time to automate the conversion of the entire application considering there are approximately 20 of them.
 
-I started my investigation by trying regular expressions which I've successfully used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the regex master of master's in order to achieve. I also did not appreciate the unintuitive syntax, lack of readability, or the inability to extend or add diagnostic tools or gain any kind of feedback. It seemed to me like a black box consisting of only mathematical jargon. I then considered using other existing parsing tools but steered away from this because I did not want to spend time learning somebody else's work only to be frustrated with it's useage and learn it only does 90% of what I need. If I created my own parser however I would be completely in control and could design it from the ground up to work exactly how I wanted it to.
+I started my investigation by trying regular expressions which I've successfully used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the regex master of master's in order to achieve. I also did not appreciate the unintuitive syntax, lack of readability, or the inability to extend or add diagnostic tools or gain any kind of feedback. It seemed to me like a black box consisting of only mathematical jargon. I then considered using other existing parsing tools but steered away from this because I did not want to spend time learning somebody else's work only to be frustrated with it's usage and learn it only does 90% of what I need. If I created my own parser however I would be completely in control and could design it from the ground up to work exactly how I wanted it to.
 
 My process in theory was to:
 1. Choose a module and run the conversion against it.
@@ -149,7 +149,7 @@ Below is the list of types e.t.c. that a user/developer may need to be concerned
 
 ### Statement Types ###
 
-Below is the current list of statement types with notes explaining their useage:
+Below is the current list of statement types with notes explaining their usage:
 
 | Type | Parameter(s) | Description | Notes |
 | ---- | ------------ | ----------- | ----- |
@@ -185,7 +185,7 @@ It can be used to create and execute a UCPA visually as opposed to through lines
 
 The code for the entire application can be found at https://github.com/sidfishus/react-spa-demo.
 
-## Useage ##
+## Usage ##
 
 For each step, a cross or tick is displayed against the relevant section to denote whether all required information has been entered.
 
