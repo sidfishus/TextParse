@@ -6,8 +6,8 @@ TextParse is a .NET C# library I created for parsing and replacing text. The pri
 1. Terse but easily understandable for a programmer
 1. Gives good feedback and diagnostics
 1. Is easy to reuse
-1. Is Expandable
-1. Can be unit and regression tested.
+1. Is expandable
+1. Can be used with automatic unit and regression testing.
 
 See below for more detail.
 
@@ -16,15 +16,15 @@ See below for more detail.
 I was tasked with a project to convert a large ERP web application from classic ASP to ASP .NET because support for it from Microsoft was soon to expire. The application consisted of 13 modules including 100's of sourcecode files and after making the changes necessary to convert a single file it was clear that an automated process was needed.
 
 Classic ASP uses the VB script language for dynamic rendering whereas ASP .NET uses VB .NET. After manually converting a couple of code files to ASP .NET there seemed to be approximately 20 syntactical differences between the languages. Effectively what I was looking to achieve was to create a transpiler that converts from VB script to VB .NET. 
-I fathomed that if each 'type' of syntax conversion would take 1-3 days to complete it would be an acceptable amount of time to automate the conversion of the entire application.
+I fathomed that if each 'type' of syntax conversion would take 1-3 days to complete it would be an acceptable amount of time to automate the conversion of the entire application considering there are approximately 20 of them.
 
-I started my investigation by trying regular expressions which I've successfully used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the master of master's in order to achieve what I wanted in regex. I also did not appreciate the unintuitive syntax, lack of readability, as well as the inability to extend or add diagnostic tools or gain any kind of feedback. I then considered using other existing parsing tools but shied away from this approach because I did not want to spend time learning somebody else's work only to be frustrated with it's useage and find it only does 90% of what I need. If I created my own however I would be completely in control and I could design it from the ground up to work exactly how I needed it to.
+I started my investigation by trying regular expressions which I've successfully used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the regex master of master's in order to achieve. I also did not appreciate the unintuitive syntax, lack of readability, or the inability to extend or add diagnostic tools or gain any kind of feedback. It seemed to me like a black box consisting of only mathematical jargon. I then considered using other existing parsing tools but steered away from this because I did not want to spend time learning somebody else's work only to be frustrated with it's useage and learn it only does 90% of what I need. If I created my own parser however I would be completely in control and could design it from the ground up to work exactly how I wanted it to.
 
 My process in theory was to:
 1. Choose a module and run the conversion against it.
 1. Test that module until a bug/syntax error was found.
 1. Fix the parse operation that deals with converting that particular syntax or create a new one.
-1. Goto step 1 until no more bugs are found in testing.
+1. Goto step 1 until no more bugs are found during testing.
 1. Move on to the next module but include the module(s) already converted.
 
 After each execution of the conversion I could use Microsoft Team Foundation Studio to 'diff' the changed files for changes before checking them in. This would serve as a method of regression testing and unit testing to ensure that any new changes to the library and conversion operations made in that iteration had not broken anything, so I was never going two steps forward and then one step back. The annotate ('blame' in Git) feature would come in handy when errors were found to determine at what iteration a breaking change was introduced and therefore give me a starting point for fixing the issue.
@@ -37,11 +37,11 @@ The parser library itself was completed but the conversion project was stopped e
 
 I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
 1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
-1.. Validate that the character at the current position is lowercase and is a-z. ```// Validate word is at least one character in length```
+1. Validate that the character at the current position is lowercase and is a-z. ```// Validate word is at least one character in length```
 1. Move until a character is found that is not lower case a-z, or we find the end of the string. ```// Find the first non a-z character```
 1. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word```
 
-When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me as someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine and given an apt name it could be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1). It's also trivial to create unit tests to prove the accuracy of the routine as well as provide regression testing as the parse library evolves over time.
+When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me as someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine and are given an apt name it could be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1). It's also trivial to create unit tests to prove the accuracy of the sub routine as well as provide regression testing as the parse library evolves over time.
 
 ### Outer Linear Parse Algorithm (OLPA)
 
@@ -52,13 +52,13 @@ The next thing to consider is how the UCPA should be executed and therefore ther
 
 ### Individual Statements
 
-Each individual parse statement would be an instance of a given type of operation that would be passed the same parameters to perform it's specific task. The parameters:
+Each individual parse statement would be an instance of a given type of operation/validation that would be passed the same parameters to perform it's specific task. The parameters/result value are:
 1. The input text that is being parsed.
 1. The position within the input text to begin at.
-1. The output position within the input text, or a value to indicate stop/unsuccessful match.
 1. An object that can be used to access and update state information such as UCPA defined variables.
+1. The output position within the input text, or a value to indicate stop/unsuccessful match (result).
 
-New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible. I.e. there would be a built in statement type that acts as a string comparison, and a statement type that acts as the 'OR' operator, for example. And it should be possible to combine statements together to increase their reuse.
+New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible. I.e. there would be a built in statement type that acts as a string comparison, and a statement type that acts as the 'OR' operator, for example. And it should be possible to combine statements together to increase their reusability.
 
 ## Practical
 
@@ -66,7 +66,7 @@ New statements could be added over time as/when needed to further extend the par
 
 Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain understandable to a computer programmer.
 
-My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA fo execution. The parse statement classes would all derive from a common interface (IComparisonWithAdvance) and leverage polymorphism to allow them to be used via a reference to the interface. This is key because it allows any type, combination, or list of parse statements to be used anywhere that a single parse statement is required because everything that can be executed as part of a UCPA derives from the same interface and implements the same parse interface method. For example this is very useful for the 'or' statement which takes a list of parse statements and executes them sequentially until a match is found because it makes the following algorithm possible:
+My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA for execution. The parse statement classes would all derive from a common interface (IComparisonWithAdvance) and leverage polymorphism to allow them to be used via a reference to the interface. This is key because it allows any type, combination, or list of parse statements to be used anywhere that a single parse statement is required because everything that can be executed as part of a UCPA derives from the same interface and implements the same parse interface method. For example this is very useful for the 'or' statement which takes a list of parse statements and executes them sequentially until a match is found because it makes the following algorithm possible:
 1. Compare against string 'test' (string comparison)
 1. OR
    1. Compare against string 'hello'
@@ -74,7 +74,7 @@ My first idea was to create a psuedo language that could be parsed and converted
 
 The second parse statement of the 'or' is a combination of statements and because the parse statement list class ('StatementList') derives from the same interface as an individual parse statement (IComparsonWithAdvance), the parse statement list type can be used anywhere a parse statement is required. Thus removes the need for the caller to have any knowledge of how the parse statement is implemented. The only contract between the 'or' statement and it's child parse statements is that the child will be given the input text and a starting position and will return an output position alongside a result indicating whether it was a successful match.
 
-The statement types are of one of 2 categories:
+The statement types can be 1 of 2 categories:
 - Comparison: validate from the given position, return the output position, and return true false to indicate whether the match was successful.
 - Operation: do something and return the output position. For example this could be setting a user defined variable where the output position will be returned as the input position, or moving to elsewhere within the input text and returning that position.
 
@@ -82,7 +82,7 @@ The only difference in terms of syntax/execution is that an operation cannot cau
 
 ### Programming Language/Platform ###
 
-I had already decided that I would be designing this using an object oriented approach. So I decided to create the library in .NET and C# due to the plethora of inbuilt functionality and simple but intuitive OO syntax. Having a gargage collector would also reduce the complexity allowing me to focus on making the parser as accurate and resilient as possible. I was focusing on accuracy and human readability as opposed to performance, however after parsing entire directories containing 100's of files I am more than satisfied with performance.
+I had already decided that I would be designing this using an object oriented approach. So I decided to create the library in .NET and C# due to the plethora of inbuilt functionality and simple but intuitive OO syntax. Having a gargage collector would also reduce the complexity allowing me to focus on making the parser as accurate and resilient as possible. I was focusing on accuracy and human readability as opposed to performance, however after parsing entire directories containing 100's of files I am more than satisfied with the performance.
 
 ### Progress ###
 
@@ -158,29 +158,29 @@ Below is the current list of statement types with notes explaining their useage:
 | Advance to the End | | Advance to the end of the input text | Can be used to prematurely stop the OLPA for example to improve performance if only a single match is required |
 | Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool) | Advance until the comparison returns true. | If the end of the input string is reached without the comparison matching, false is returned (no match) |
 | Advance While Operation | Comparison (IComparisonWithAdvance) | Advance whilst the comparison returns true |  |
-| Capture | Comparison (IComparsonWithAdvance) | Extract the text which matches 'comparison'. | Captured text is stored against a given name/identifier and is available when the UCPA reaches the end of a successful match |
+| Capture | Comparison (IComparsonWithAdvance) | Extract the text which matches 'comparison'. | Captured text is stored against a given name/identifier and is available when the UCPA reaches the end of a successful match. Same idea as the capture feature found in regex |
 | Char Comparison | Chr (char) | Compare the character at the current position with 'Chr' | The options parameter specifies case sensitivity |
-| Char Delegate Comparison | Char delegate (bool (char)) | Compare the character at the current position against a delegate taking that character | |
+| Char Delegate Comparison | Char delegate (bool (char)) | Compare the character at the current position against a delegate taking that character as a parameter | |
 | Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a replacement for the look around feature found in regex |
 | Custom Comparison | Custom comparison delegate (bool (int,string,RunState)) | Compare and advance according to a user specified delegate | Only use if an existing statement or sub routine does not achieve your goal and it doesn't make sense to reuse it in the future |
 | Delimited List Comparison | Comparison (IComparisonWithAdvance), seperator (IComparisonWithAdvance) | Parse a delimited list where values are compared against 'Comparison' and are delimited by the 'seperator' comparison | It's possible to specify a minimum and maximum number of items expected |
 | Match Everything Comparison | | Return the current position plus 1 | This is the same as using the advance operation with a forward value of 1. May be useful in situations where this name describes the algorithm more intuitively |
-| Nested Open Close Comparison | Open (IComparisonWithAdvance), close (IComparisonWithAdvance) | This is quite niche. Matches against the open comparison and advances until the close comparison is found. The number of 'close' comparisons must match the number of 'open' comparisons in order to stop - hence the 'nested' aspect of the name | For example can be used to validate function calls in text by using '(' as the open comparison and ')' as the close comparison |
+| Nested Open Close Comparison | Open (IComparisonWithAdvance), close (IComparisonWithAdvance) | This is quite niche. Matches against the open comparison and advances until the close comparison is found. The number of 'close' comparisons must match the number of 'open' comparisons in order to stop - hence 'nested' | For example can be used to validate function calls in text by using '(' as the open comparison and ')' as the close comparison |
 | Not Comparison | Comparison (IComparison) | Run a comparison but invert the result | This does not advance |
-| Or Comparison | Comparison list (IList<IComparisonWithAdvance>) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
+| Or Comparison | Comparison list (IList<IComparisonWithAdvance>) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance |
 | Set Log Level | Level (int) | Update the log level | Can be used to increase/decrease logging verbosity |
 | Set Variable | Variable name (string), value (fOperand<int>) | Assign the value to a user defined variable | |
 | Start of Input String Comparison | | Returns true if the current position is the beginning of the input text | |
 | Statement List | List<IStatement> | Execute a list of parse statements until the end is reached or a comparison returns no match |  |
 | Store Position as Variable | Variable name (string) | Store the current position as a variable | For example if you need to refer back to this position at a later date |
-| String Comparison | Compare string | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
+| String Comparison | Compare string, options | Compare the string at the current position in the input text against the compare string | The options parameter specifies case sensitivity |
 | String Comparison Skip Whitespace | Str (string) | Compare the string at the current position in the input text against 'Str' but ignore any differences in whitespace | This is not necessary as it's own statement type. A sub routine that composes the other statement types could perform the same job |
 | String Offset Comparison | Length (fOperand<int>), offset (fOperand<int>), reverse (bool) | Compare the string denoted by the current position in the input text and length parameter against another part of the input string denoted by the offset parameter | Used by the palindrome built in examples |
 | Toggle Log Status | Enable (bool) | Enable or disable the log | |
 
 # Text Parse User Interface Application #
 
-I have created a live React web application that is hosted within Azure which demonstrates how the Text Parse library works: http://chrissiddall.azurewebsites.net/textparse. 
+I have created a live ASP .NET MVC Core 3 and React web application that is hosted within Azure which demonstrates how the Text Parse library works as well as my skills as a full stack developer: http://chrissiddall.azurewebsites.net/textparse. 
 It can be used to create and execute a UCPA visually as opposed to through lines of code and may give a different perspective and deeper understanding.
 
 The code for the entire application can be found at https://github.com/sidfishus/react-spa-demo.
