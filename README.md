@@ -132,15 +132,15 @@ namespace TextParseTesting
 
 ### Types / Interfaces / Classes ###
 
-Below is the list of existing types e.t.c. that a user/developer may need to be concerned with when using the parser:
+Below is the list of types e.t.c. that a user/developer may need to be concerned with when using the parser:
 
 | Type e.t.c. | Description | Notes |
 | ----------- | ----------- | ----- |
-| ComparisonWithAdvanceBase | Helper base class for comparison parse statements that advance | |
-| fOperand<T> | A delegate that has access to the input string, current position, and run state. The generic type parameter determines the resulting type | For example used to parameterise parse statements with dynamic values |
+| ComparisonWithAdvanceBase | Helper base class for comparison type parse statements | |
+| fOperand<T> | A delegate that has access to the input string, current position, and run state. The generic type parameter determines the resulting type | For example used to parameterise parse statements with dynamic values such as the offset in a string offset comparison |
 | IAssertion | An interface that all assertions must implement | A given parse statement can have any number of assertions associated with it. These assertions are executed after a parse statement has finished. Used for identifying bugs |
 | IComparison | An interface for comparison type parse statements which do not advance | |
-| IComparisonWithAdvance | The interface that all comparison parse statements that advance must implement | Sub routines should return an instance of this interface |
+| IComparisonWithAdvance | The interface that all comparison parse statements that advance must implement | Parse sub routines should return an instance of this interface |
 | IOperation | The interface that all operation type parse statements must implement | |
 | IStatement | The root interface for parse statements | Contains declarations for the members required in both comparison and operator sub categories |
 | PositionAssertion | Assert for a particular parse statement what the expected output position and result should be in relation to the start position | Used for identifying the individual parse statement(s) that are not working in complex UCPA's that are giving unexpected results |
