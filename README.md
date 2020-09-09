@@ -202,9 +202,7 @@ All of the information entered by the user for parsing is stored as functions/ob
 1. 7 fully working built in examples.
 1. The full C# code to the parse application produced is logged to the browser console window to help with identifying bugs in the library or the UCPA.
 
-## Images ##
-
-See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images.
+See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images demonstrating the features available in the user interface application.
 
 
 
