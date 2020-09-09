@@ -37,27 +37,28 @@ The parser library itself was completed but the conversion project was stopped e
 
 I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
 1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
-2. Validate that the character at the current position is lowercase and alphabetical. ```// Validate word is at least one character in length```
-3. Move until a non lowercase a-z character is found, or we find the end of the string. ```// Find the first non a-z character```
+2. Validate that the character at the current position is lowercase and is a-z. ```// Validate word is at least one character in length```
+3. Move until a character is found that is not lower case a-z, or we find the end of the string. ```// Find the first non a-z character```
 4. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word```
 
-When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me as someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine it can be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1) as long as an apt name and description is used. It's also trivial to create unit tests to prove the accuracy of the routine as well as provide regression testing as the parse library evolves over time.
+When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me as someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine and given an apt name it could be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1). It's also trivial to create unit tests to prove the accuracy of the routine as well as provide regression testing as the parse library evolves over time.
 
 ### Outer Linear Parse Algorithm (OLPA)
 
-The next thing to consider is how the UCPA should be executed, and therefore there are 2 algorithms in play:
+The next thing to consider is how the UCPA should be executed and therefore there are 2 algorithms in play:
 
 1. The OLPA which executes in a linear fashion starting at the first character and stops when the end of the input text is found. At each iteration the UCPA is executed from the OLPA's current position. If an iteration results in an unsuccessful match from the UCPA the OLPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OLPA records the position of where the UCPA finishes and continues iterating from the new position.
 2. The UCPA starts at the position passed to it by the OLPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
 
 ### Individual Statements
 
-Each individual parse statement would be an instance of a given type of operation that would be passed the same parameters:
+Each individual parse statement would be an instance of a given type of operation that would be passed the same parameters to perform it's specific task. The parameters:
 1. The input text that is being parsed.
-2. The position within the input text to begin at.
-3. The output position within the input text, or a value to indicate stop/unsuccessful match.
+1. The position within the input text to begin at.
+1. The output position within the input text, or a value to indicate stop/unsuccessful match.
+1. An object that can be used to access and update state information such as UCPA defined variables.
 
-New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible. I.e. there would be a built in statement type for a string comparison, and a statement type that would act as the 'OR' operator, for example. And it should be possible to combine statements together to increase their reuse.
+New statements could be added over time as/when needed to further extend the parse library and make it as reusable as possible. I.e. there would be a built in statement type that acts as a string comparison, and a statement type that acts as the 'OR' operator, for example. And it should be possible to combine statements together to increase their reuse.
 
 ## Practical
 
