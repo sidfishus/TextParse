@@ -209,17 +209,3 @@ See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow o
 1. In order to build this application you will need to replace the clear text password inside the nuget.config file with 'b0aa87c9b44616466778a5379a3dcaf0212dc28b' otherwise the 'dotnet restore' command will fail. If I include the clear text password (PAT) in the released/pushed (to Github) file it is automatically deleted. If for whatever reason the PAT I have given above stops working feel free to send me an email at sidnet001@gmail.com to generate a new one.
 
 
-
-... incomp
-
-notes:
-
-
-since used it to parse HTML and XML.
-
-
-project wasn't finished.
-
-unit tests
-
-
