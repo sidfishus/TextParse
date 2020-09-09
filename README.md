@@ -1,6 +1,14 @@
 # TextParse
 
-TextParse is a .NET C# library I created for parsing and replacing text. //sidtodo
+TextParse is a .NET C# library I created for parsing and replacing text. The principal behind it is that the user uses C# class syntax to describe a series of steps that encapsulates a parse routine which is then executed iteratively in a linear fashion against the specified input text. The use case for it's creation was to create a parser that:
+1. Is accurate
+2. Terse but easily understandable for a programmer
+3. Gives good feedback and diagnostics
+4. Is easy to reuse
+5. Is Expandable
+6. Can be unit and regression tested.
+
+See below for more detail.
 
 # Concept
 ## Background
