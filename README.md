@@ -37,9 +37,9 @@ The parser library itself was completed but the conversion project was stopped e
 
 I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
 1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
-2. Validate that the character at the current position is lowercase and is a-z. ```// Validate word is at least one character in length```
-3. Move until a character is found that is not lower case a-z, or we find the end of the string. ```// Find the first non a-z character```
-4. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word```
+1.. Validate that the character at the current position is lowercase and is a-z. ```// Validate word is at least one character in length```
+1. Move until a character is found that is not lower case a-z, or we find the end of the string. ```// Find the first non a-z character```
+1. Validate that we have reached the end of the text, or the current character is a space. ```// Reached the end of the word```
 
 When described in this manner it is very easy to understand the intention and purpose of each step as well as the algorithm as a whole - at least it seems this way to me as someone who has been programming since 2001. Furthermore, if the four steps are encapsulated into their own sub routine and given an apt name it could be reused in future. This will reduce bugs (it's already tested) and increase the readability of parse algorithms by making them more terse (remove duplication by turning 4 steps in to 1). It's also trivial to create unit tests to prove the accuracy of the routine as well as provide regression testing as the parse library evolves over time.
 
@@ -48,7 +48,7 @@ When described in this manner it is very easy to understand the intention and pu
 The next thing to consider is how the UCPA should be executed and therefore there are 2 algorithms in play:
 
 1. The OLPA which executes in a linear fashion starting at the first character and stops when the end of the input text is found. At each iteration the UCPA is executed from the OLPA's current position. If an iteration results in an unsuccessful match from the UCPA the OLPA will incremement it's last recorded position by 1 and continue iterating from there. However if the iteration results in a successful match from the UCPA, the OLPA records the position of where the UCPA finishes and continues iterating from the new position.
-2. The UCPA starts at the position passed to it by the OLPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
+1. The UCPA starts at the position passed to it by the OLPA and executes parse statements in a sequential manner until a validation returns false or there are no more parse statements. Each time a parse statement is executed the resulting position is passed on to the next parse statement in the sequence. The UCPA can move anywhere in the input string.
 
 ### Individual Statements
 
@@ -64,9 +64,9 @@ New statements could be added over time as/when needed to further extend the par
 
 ### Initial Approach ###
 
-Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain human readable to a computer programmer.
+Now I could describe what I wanted to achieve, I needed a way of conveying that to an application so that it could be translated and executed but at the same time remain understandable to a computer programmer.
 
-My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA along with the input text. The parse statement classes would all derive from a common interface (IComparisonWithAdvance) and leverage polymorphism to allow them to be called via a reference to the interface. This is key because it allows any type, combination, or list of parse statements to be used anywhere that a single parse statement is required because everything that can be executed as part of a UCPA derives from the same interface and implements the same parse interface method. For example this is very useful for the 'or' statement which takes a list of parse statements and executes them sequentially until a match is found because it makes the following algorithm possible:
+My first idea was to create a psuedo language that could be parsed and converted to a list of parse statement objects (I was heavily into OO at the time) that would make up the parse statement list (UCPA) that would be passed to the OLPA fo execution. The parse statement classes would all derive from a common interface (IComparisonWithAdvance) and leverage polymorphism to allow them to be used via a reference to the interface. This is key because it allows any type, combination, or list of parse statements to be used anywhere that a single parse statement is required because everything that can be executed as part of a UCPA derives from the same interface and implements the same parse interface method. For example this is very useful for the 'or' statement which takes a list of parse statements and executes them sequentially until a match is found because it makes the following algorithm possible:
 1. Compare against string 'test' (string comparison)
 1. OR
    1. Compare against string 'hello'
@@ -78,15 +78,15 @@ The statement types are of one of 2 categories:
 - Comparison: validate from the given position, return the output position, and return true false to indicate whether the match was successful.
 - Operation: do something and return the output position. For example this could be setting a user defined variable where the output position will be returned as the input position, or moving to elsewhere within the input text and returning that position.
 
-The only difference in terms of syntax/execution is that an operation cannot cause the parsing to stop. I've since concluded that this distinction of categories is not necessary and the only result necessary is the output position which could be returned as -1 to indicate a failed match.
+The only difference in terms of syntax/execution is that an operation cannot cause the parsing to stop. I've since concluded that this distinction of categories is not necessary and the same result could be achieved by simply returning the output position or -1 to indicate an unsuccessful validation.
 
 ### Programming Language/Platform ###
 
-I had already decided that I would be designing this using an object oriented approach. So I decided to create the library in .NET and C# due to the plethora of inbuilt functionality and intuitive OO syntax. Having a gargage collector would also reduce the complexity allowing me to focus on making the parser as accurate and resilient as possible. I was focusing on accuracy and human readability as opposed to performance, however after parsing entire directories containing 100's of files I am more than satisfied with the speed taken.
+I had already decided that I would be designing this using an object oriented approach. So I decided to create the library in .NET and C# due to the plethora of inbuilt functionality and simple but intuitive OO syntax. Having a gargage collector would also reduce the complexity allowing me to focus on making the parser as accurate and resilient as possible. I was focusing on accuracy and human readability as opposed to performance, however after parsing entire directories containing 100's of files I am more than satisfied with performance.
 
 ### Progress ###
 
-I quickly gave up on the idea of creating a psuedo language because it was taking me too long to parse it and was too verbose and difficult to follow when describing complex parse algorithm's. However the C# class syntax I was already using to create the parse statements as a result of parsing the psuedo language seemed appropriate for the task and had the added benefit of removing the need for an intermediate language.
+I quickly gave up on the idea of creating a psuedo language because it was taking me too long to parse it and was too verbose and difficult to follow when describing complex parse algorithm's. However the C# class syntax I was already using to create the parse statement objects as a result of parsing the psuedo language seemed appropriate for the task and had the added benefit of removing the need for an intermediate language.
 
 ### Simple Example ###
 
