@@ -203,21 +203,21 @@ All of the information entered by the user for parsing is stored as functions/ob
 
 ## Features ##
 
-1. The majority of the parse statement types.
+1. The majority of the parse statement types are available for use.
 1. User defined functions.
 1. User defined variables.
 1. Different parse algorithms:
    1. Match: display whether the input matches the parse statements.
    1. Extract single: extract and display the first item which matches the parse statements.
-   1. Extract all: extract and display all items which matches the parse statements.
+   1. Extract all: extract and display all items which match the parse statements.
    1. Replace: replace entries matching the parse statement list according to the replace format and retain any text which does not match
 1. 7 fully working built in examples including a complex example which converts all classic ASP procedure calls to the ASP .NET equivalent.
-1. The full C# code to the parse application produced is logged to the browser console window to help with identifying bugs in the library or the UCPA.
+1. The full C# code of the parse application produced is logged to the browser console window.
 
-See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images demonstrating the features available in the user interface application.
+See https://chrissiddall.azurewebsites.net/portfolio/textparse for a slideshow of images demonstrating the features available in the user interface.
 
 # Notes
 
-1. In order to build this application you will need to replace the clear text password inside the nuget.config file with 'b0aa87c9b44616466778a5379a3dcaf0212dc28b' otherwise the 'dotnet restore' command will fail. If I include the clear text password (PAT) in the released/pushed (to Github) file it is automatically deleted. If for whatever reason the PAT I have given above stops working feel free to send me an email at sidnet001@gmail.com to generate a new one.
+1. In order to build this application you will need to replace the clear text password inside the nuget.config file with 'b0aa87c9b44616466778a5379a3dcaf0212dc28b' otherwise the 'dotnet restore' command will fail. If I include the clear text password (PAT) in the released/pushed (to Github) nuget.config file the PAT is automatically deleted. If for whatever reason the PAT I have given above stops working feel free to send me an email at sidnet001@gmail.com to request a new one.
 
 
