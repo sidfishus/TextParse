@@ -181,7 +181,7 @@ Below is the current list of statement types with notes explaining their useage:
 # Text Parse User Interface Application #
 
 I have created a live React web application that is hosted within Azure which demonstrates how the Text Parse library works: http://chrissiddall.azurewebsites.net/textparse. 
-It can be used to create and execute a UCPA visually as opposed to through lines of code and may give a different perspective for a deeper understanding.
+It can be used to create and execute a UCPA visually as opposed to through lines of code and may give a different perspective and deeper understanding.
 
 The code for the entire application can be found at https://github.com/sidfishus/react-spa-demo.
 
@@ -199,7 +199,7 @@ For each step, a cross or tick is displayed against the relevant sections to den
 
 ## Technical ##
 
-All of the information entered by the user for parsing is stored as functions/objects in the browser by React/Javascript. Upon parse execution in the front end all of this information is then converted to the .NET/C# code necessary to execute the parse routine, and then HTTP POST'd to the ASP .NET MVC Core controller which handles parsing as a string. The controller, utilising the Rosyln open source compiler (Microsoft.CodeAnalysis.CSharp assembly), compiles and then executes the C# code that was passed to it, and returns the results back to the web application. Sending C# code via a HTTP message which is then compiled and executed may seem a security risk, but it is safe to do so because only the assemblies required to run the parse application are referenced in the compiled application and thus only basic functionality from the .NET platform could be used. Also the task of compiling and executing the text parse application is encapsulated in to it's own thread which has a timeout.
+All of the information entered by the user for parsing is stored as functions/objects in the browser by React/Javascript. Upon parse execution in the front end all of this information is then converted to the .NET/C# code necessary to execute the parse routine, and HTTP POST'd as a string to the ASP .NET MVC Core controller which handles parsing. The controller, utilising the Rosyln open source compiler assemblies (Microsoft.CodeAnalysis.CSharp), compiles and then executes the C# code which was passed to it, and returns the results back to the web application. Sending C# code via a HTTP message which is then compiled and executed may seem a security risk, but it is safe to do so in this case because only the assemblies required to run the parse application are referenced in the compiled application. Also the task of compiling and executing the text parse application is encapsulated in to it's own thread and is given a timeout value. This protects against infinite loops which could cause the HTTP request to crash.
 
 ## Features ##
 
