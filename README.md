@@ -142,10 +142,10 @@ Below is the list of types e.t.c. that a user/developer may need to be concerned
 | IComparison | An interface for comparison type parse statements which do not advance | |
 | IComparisonWithAdvance | The interface that all comparison parse statements that advance must implement | Parse sub routines should return an instance of this interface |
 | IOperation | The interface that all operation type parse statements must implement | |
-| IStatement | The root interface for parse statements | Contains declarations for the members required in both comparison and operator sub categories |
+| IStatement | The root interface for parse statements | Contains declarations for the members required in both comparison and operation sub categories |
 | PositionAssertion | Assert for a particular parse statement what the expected output position and result should be in relation to the start position | Used for identifying the individual parse statement(s) that are not working in complex UCPA's that are giving unexpected results |
 | RunState | Singleton class which holds the parse state | Is used to access user defined variables and functions |
-| StatementBase | Root base class for parse statements | Contains the members required in both comparison and operator sub categories |
+| StatementBase | Root base class for parse statements | Contains the members required in both comparison and operation sub categories |
 
 ### Statement Types ###
 
