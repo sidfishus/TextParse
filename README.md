@@ -9,7 +9,7 @@ TextParse is a .NET C# library I created for parsing and replacing text. The pri
 1. Is expandable
 1. Can be used with automatic unit and regression testing.
 
-See below for more detail.
+See below for more details.
 
 # Concept
 ## Background
