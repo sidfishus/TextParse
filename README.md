@@ -1,34 +1,35 @@
 # TextParse
 
 TextParse is a .NET C# library I created for parsing and replacing text. The principal behind it is that the user uses C# class syntax to describe a series of steps that encapsulates a parse routine which is then executed iteratively in a linear fashion against the specified input text. The use case for it's creation was to create a parser that:
+1. Can parse complex formats
 1. Is accurate
-2. Terse but easily understandable for a programmer
-3. Gives good feedback and diagnostics
-4. Is easy to reuse
-5. Is Expandable
-6. Can be unit and regression tested.
+1. Terse but easily understandable for a programmer
+1. Gives good feedback and diagnostics
+1. Is easy to reuse
+1. Is Expandable
+1. Can be unit and regression tested.
 
 See below for more detail.
 
 # Concept
 ## Background
-I was tasked with a project to convert a large ERP web application from classic ASP to ASP .NET because support from Microsoft was soon to expire. The application consisted of 13 modules including 100's of sourcecode files and after making the changes necessary to convert a single file it was clear that an automated process was needed.
+I was tasked with a project to convert a large ERP web application from classic ASP to ASP .NET because support for it from Microsoft was soon to expire. The application consisted of 13 modules including 100's of sourcecode files and after making the changes necessary to convert a single file it was clear that an automated process was needed.
 
 Classic ASP uses the VB script language for dynamic rendering whereas ASP .NET uses VB .NET. After manually converting a couple of code files to ASP .NET there seemed to be approximately 20 syntactical differences between the languages. Effectively what I was looking to achieve was to create a transpiler that converts from VB script to VB .NET. 
 I fathomed that if each 'type' of syntax conversion would take 1-3 days to complete it would be an acceptable amount of time to automate the conversion of the entire application.
 
-I started my investigation by trying regular expressions which I've used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the master of master's in order to achieve what I wanted in regex. I also did not appreciate the unintuitive syntax, lack of readability, as well as the inability to extend or add diagnostic tools or gain any kind of feedback. I also considered using other existing parsing tools but shied away from this approach because I did not want to spend time learning somebody else's work only to be frustrated with it's useage and find it only does 90% of what I needed. If I created my own however I would be completely in control and I could design it from the ground up to do exactly what I need.
+I started my investigation by trying regular expressions which I've successfully used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the master of master's in order to achieve what I wanted in regex. I also did not appreciate the unintuitive syntax, lack of readability, as well as the inability to extend or add diagnostic tools or gain any kind of feedback. I then considered using other existing parsing tools but shied away from this approach because I did not want to spend time learning somebody else's work only to be frustrated with it's useage and find it only does 90% of what I need. If I created my own however I would be completely in control and I could design it from the ground up to work exactly how I needed it to.
 
 My process in theory was to:
 1. Choose a module and run the conversion against it.
-2. Test that module until a bug/syntax error was found.
-3. Fix the parse operation that deals with converting that particular syntax, or create a new operation.
-4. Goto step 1 until no more bugs are found.
-5. Move on to the next module but include the module(s) already converted.
+1. Test that module until a bug/syntax error was found.
+1. Fix the parse operation that deals with converting that particular syntax or create a new one.
+1. Goto step 1 until no more bugs are found in testing.
+1. Move on to the next module but include the module(s) already converted.
 
 After each execution of the conversion I could use Microsoft Team Foundation Studio to 'diff' the changed files for changes before checking them in. This would serve as a method of regression testing and unit testing to ensure that any new changes to the library and conversion operations made in that iteration had not broken anything, so I was never going two steps forward and then one step back. The annotate ('blame' in Git) feature would come in handy when errors were found to determine at what iteration a breaking change was introduced and therefore give me a starting point for fixing the issue.
 
-The parser library itself was completed but the conversion project was stopped early on after I had completed 2 of the syntax changing operations. I have since used it to parse and transform XML and HTML and other formats of text and is always my first choice for any parsing project.
+The parser library itself was completed but the conversion project was stopped early on after I had successfully completed and tested 2 of the syntax changing operations. I have since used it to parse and transform XML and HTML and other formats of text and it is always my first choice for any parsing project.
 
 ## Theory
 
