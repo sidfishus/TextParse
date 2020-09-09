@@ -28,6 +28,8 @@ My process in theory was to:
 
 After each execution of the conversion I could use Microsoft Team Foundation Studio to 'diff' the changed files for changes before checking them in. This would serve as a method of regression testing and unit testing to ensure that any new changes to the library and conversion operations made in that iteration had not broken anything, so I was never going two steps forward and then one step back. The annotate ('blame' in Git) feature would come in handy when errors were found to determine at what iteration a breaking change was introduced and therefore give me a starting point for fixing the issue.
 
+The parser library itself was completed but the conversion project was stopped early on after I had completed 2 of the syntax changing operations. I have since used it to parse and transform XML and HTML and other formats of text and is always my first choice for any parsing project.
+
 ## Theory
 
 ### User Created Parse Algorithms (UCPA)
