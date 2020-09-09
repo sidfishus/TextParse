@@ -187,26 +187,26 @@ The code for the entire application can be found at https://github.com/sidfishus
 
 ## Useage ##
 
-For each step, a cross or tick is displayed against the relevant sections to denote whether all required information has been entered.
+For each step, a cross or tick is displayed against the relevant section to denote whether all required information has been entered.
 
 1. Create user defined functions and variables if any are required.
 1. Create the individual parse statements and arrange them in to the correct order.
 1. Enter the parse text in the input section.
 1. Select which type of parse routine you wish to use in the parse output section.
 1. Press the execute parse button, it will be green or red depending on whether all required information has been entered.
-1. The parse result will display in the output section.
-1. The .NET/C# code equivalent of the parse statements will also be printed to the web browser console.
+1. The parse result(s) will display in the output section.
+1. The .NET/C# application created will be printed to the web browser console.
 
 ## Technical ##
 
-All of the information entered by the user for parsing is stored as functions/objects in the browser by React/Javascript. Upon parse execution in the front end all of this information is then converted to the .NET/C# code necessary to execute the parse routine, and HTTP POST'd as a string to the ASP .NET MVC Core controller which handles parsing. The controller, utilising the Rosyln open source compiler assemblies (Microsoft.CodeAnalysis.CSharp), compiles and then executes the C# code which was passed to it, and returns the results back to the web application. Sending C# code via a HTTP message which is then compiled and executed may seem a security risk, but it is safe to do so in this case because only the assemblies required to run the parse application are referenced in the compiled application. Also the task of compiling and executing the text parse application is encapsulated in to it's own thread and is given a timeout value. This protects against infinite loops which could cause the HTTP request to crash.
+All of the information entered by the user for parsing is stored as functions/objects in the browser by React/Javascript/Babel. Upon parse execution in the front end all of this information is converted to the .NET/C# code necessary to execute the parse routine, and HTTP POST'd as a string to the ASP .NET MVC Core controller which handles parsing. The controller, utilising the Rosyln open source compiler assemblies (Microsoft.CodeAnalysis.CSharp), compiles and then executes the C# code which was passed to it, and returns the results of the parse back to the web application. Sending C# code via a HTTP message which is then compiled and executed may seem a security risk, but it is safe to do so in this case because only the assemblies required to run the parse application are referenced in the compiled executable. Also the task of compiling and executing the text parse application is encapsulated in to it's own thread and is given a timeout value. This protects against infinite loops which could cause the HTTP request to crash.
 
 ## Features ##
 
 1. The majority of the parse statement types are available for use.
 1. User defined functions.
 1. User defined variables.
-1. Different parse algorithms:
+1. A variety of parse algorithms:
    1. Match: display whether the input matches the parse statements.
    1. Extract single: extract and display the first item which matches the parse statements.
    1. Extract all: extract and display all items which match the parse statements.
