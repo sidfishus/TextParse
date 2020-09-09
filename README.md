@@ -155,19 +155,19 @@ Below is the current list of statement types with notes explaining their useage:
 | ---- | ------------ | ----------- | ----- |
 | Advance | Position (fOperand<int>) | Advance to the position denoted by the position operand |  |
 | Advance If | Comparison (IComparisonWithAdvance) | Optionally advance if the comparison returns true |  |
-| Advance to the End | | Advance to the end of the input text | Can be used to prematurely stop the OLPA for example to improve performance if only a single match is required 
+| Advance to the End | | Advance to the end of the input text | Can be used to prematurely stop the OLPA for example to improve performance if only a single match is required |
 | Advance Until Comparison | Comparison (IComparisonWithAdvance), forwards (bool) | Advance until the comparison returns true. | If the end of the input string is reached without the comparison matching, false is returned (no match) |
 | Advance While Operation | Comparison (IComparisonWithAdvance) | Advance whilst the comparison returns true |  |
 | Capture | Comparison (IComparsonWithAdvance) | Extract the text which matches 'comparison'. | Captured text is stored against a given name/identifier and is available when the UCPA reaches the end of a successful match |
 | Char Comparison | Chr (char) | Compare the character at the current position with 'Chr' | The options parameter specifies case sensitivity |
-| Char Delegate Comparison | Char delegate (bool (char)) | |
-| Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a look around
-| Custom Comparison | Custom comparison delegate (bool (int,string,RunState)) | Compare and advance according to a user specified delegate | Only use if an existing statement or sub routine does not achieve your goal and it doesn't make sense to reuse this in the future |
+| Char Delegate Comparison | Char delegate (bool (char)) | Compare the character at the current position against a delegate taking that character | |
+| Compare No Advance | Comparison (IComparison) | Run a comparison but return the original position. I.e. validate but don't move forward | Can be used as a replacement for the look around feature found in regex |
+| Custom Comparison | Custom comparison delegate (bool (int,string,RunState)) | Compare and advance according to a user specified delegate | Only use if an existing statement or sub routine does not achieve your goal and it doesn't make sense to reuse it in the future |
 | Delimited List Comparison | Comparison (IComparisonWithAdvance), seperator (IComparisonWithAdvance) | Parse a delimited list where values are compared against 'Comparison' and are delimited by the 'seperator' comparison | It's possible to specify a minimum and maximum number of items expected |
-| Match Everything Comparison | | Return the current position plus 1 | This is the same as using the advance operation with a forward value of 1. May be useful in situations where this name describes the algorithm more concisely |
-| Nested Open Close Comparison | Open (IComparisonWithAdvance), close (IComparisonWithAdvance) | This is quite niche. Matchs against the open comparison and advances until the close comparison is found. The number of 'close' comparisons must match the number of 'open' comparisons in order for it to stop - hence the 'nested' aspect of the name | For example can be used to parse function arguments by using '(' as the open comparison and ')' as the close comparison |
+| Match Everything Comparison | | Return the current position plus 1 | This is the same as using the advance operation with a forward value of 1. May be useful in situations where this name describes the algorithm more intuitively |
+| Nested Open Close Comparison | Open (IComparisonWithAdvance), close (IComparisonWithAdvance) | This is quite niche. Matches against the open comparison and advances until the close comparison is found. The number of 'close' comparisons must match the number of 'open' comparisons in order to stop - hence the 'nested' aspect of the name | For example can be used to validate function calls in text by using '(' as the open comparison and ')' as the close comparison |
 | Not Comparison | Comparison (IComparison) | Run a comparison but invert the result | This does not advance |
-| Or Comparison | Comparison list (IList<IComparisonWithAdvance) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
+| Or Comparison | Comparison list (IList<IComparisonWithAdvance>) | Match one of a list of comparisons, simulates an 'or' in programming terms | The comparisons are executed from the first item (index 0) upwards and it is the first matching comparison that controls how far to advance. |
 | Set Log Level | Level (int) | Update the log level | Can be used to increase/decrease logging verbosity |
 | Set Variable | Variable name (string), value (fOperand<int>) | Assign the value to a user defined variable | |
 | Start of Input String Comparison | | Returns true if the current position is the beginning of the input text | |
