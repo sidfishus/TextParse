@@ -21,7 +21,7 @@ I fathomed that if each 'type' of syntax conversion would take 1-3 days to compl
 I started my investigation by trying regular expressions which I've successfully used to do simple parsing in the past. I quickly gave up on this idea because it was clear I would have to become the regex master of master's in order to achieve what I needed. I also did not appreciate the unintuitive syntax, lack of readability, or the inability to extend or add diagnostic tools or gain any kind of feedback. It seemed to me like a black box consisting of only mathematical jargon. I then considered using other existing parsing tools but steered away from this because I did not want to spend time learning somebody else's work only to be frustrated with it's usage and learn it only does 90% of what I need. If I created my own parser however I would be completely in control and could design it from the ground up to work exactly how I wanted it to.
 
 My process in theory was to:
-1. Choose a module and run the conversion against it.
+1. Choose an application module and run the conversion against it.
 1. Test that module until a bug/syntax error was found.
 1. Fix the parse operation that deals with converting that particular syntax or create a new one.
 1. Goto step 1 until no more bugs are found during testing.
@@ -35,7 +35,7 @@ The parser library itself was completed but the conversion project was stopped e
 
 ### User Created Parse Algorithms (UCPA)
 
-I figured that it should be possible be able to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
+I figured that it should be possible to parse and replace/convert anything providing I could describe the routine as a series of steps and checks. E.g. to match against words that contain only a series of lowercase a-z characters you could describe the algorithm in psuedo as follows:
 1. Validate that we are at the beginning of the input text, or the preceding character is whitespace. ```// Validate beginning of word``` 
 1. Validate that the character at the current position is lowercase and is a-z. ```// Validate word is at least one character in length```
 1. Move until a character is found that is not lower case a-z, or we find the end of the string. ```// Find the first non a-z character```
@@ -210,7 +210,7 @@ All of the information entered by the user for parsing is stored as functions/ob
    1. Match: display whether the input matches the parse statements.
    1. Extract single: extract and display the first item which matches the parse statements.
    1. Extract all: extract and display all items which match the parse statements.
-   1. Replace: replace entries matching the parse statement list according to the replace format and retain any text which does not match
+   1. Replace: replace entries matching the parse statement list according to the replace format and retain any text which does not match.
 1. 7 fully working built in examples including a complex example which converts all classic ASP procedure calls to the ASP .NET equivalent.
 1. The full C# code of the parse application produced is logged to the browser console window.
 
